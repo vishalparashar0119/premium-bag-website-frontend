@@ -3,7 +3,7 @@ import React from 'react'
 const Shop = () => {
       return (
             <>
-                  {/* <%- include('./partials/header') %> */}
+            
                   <div class="w-full h-screen flex items-start px-20 py-20">
                         <div class="w-[25%] flex h-screen flex-col items-start">
                               <div class="flex items-center gap-2">
@@ -52,7 +52,6 @@ const Shop = () => {
                               </div>
                         </div>
                   </div>
-                  {/* <%- include('./partials/footer') %> */}
             </>
       )
 }

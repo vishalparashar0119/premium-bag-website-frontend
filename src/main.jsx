@@ -6,7 +6,7 @@ import Shop from './pages/shop.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <App /> */}
-    <Shop/>
+    <App />
+    {/* <Shop/> */}
   </StrictMode>,
 )

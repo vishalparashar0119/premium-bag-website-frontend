@@ -1,41 +1,43 @@
 import React from 'react'
 
 const Shop = () => {
+
+
       return (
             <>
-            
-                  <div class="w-full h-screen flex items-start px-20 py-20">
-                        <div class="w-[25%] flex h-screen flex-col items-start">
-                              <div class="flex items-center gap-2">
+
+                  <div className="w-full h-screen flex items-start px-20 py-20">
+                        <div className="w-[25%] flex h-screen flex-col items-start">
+                              <div className="flex items-center gap-2">
                                     <h3>sort by</h3>
                                     <form action="/shop">
-                                          <select class="border px-2 py-1" name="sortby" id="">
+                                          <select className="border px-2 py-1" name="sortby" id="">
                                                 <option value="popular">Popular</option>
                                                 <option value="newest">Newest</option>
                                           </select>
                                     </form>
                               </div>
-                              <div class="flex flex-col mt-20">
-                                    <a class="block w-fit mb-2" href="">New Collection</a>
-                                    <a class="block w-fit mb-2" href="">All Products</a>
-                                    <a class="block w-fit mb-2" href="">Discounted Products</a>
+                              <div className="flex flex-col mt-20">
+                                    <a className="block w-fit mb-2" href="">New Collection</a>
+                                    <a className="block w-fit mb-2" href="">All Products</a>
+                                    <a className="block w-fit mb-2" href="">Discounted Products</a>
                               </div>
-                              <div class="mt-32">
-                                    <a class="block w-fit mb-2" href="">Filter by :</a>
-                                    <a class="block w-fit mb-2" href="">Availability</a>
-                                    <a class="block w-fit mb-2" href="">Discount</a>
+                              <div className="mt-32">
+                                    <a className="block w-fit mb-2" href="">Filter by :</a>
+                                    <a className="block w-fit mb-2" href="">Availability</a>
+                                    <a className="block w-fit mb-2" href="">Discount</a>
                               </div>
                         </div>
-                        <div class="w-[75%] flex flex-col gap-5 h-screen">
-                              <div class="flex items-start gap-5">
+                        <div className="w-[75%] flex flex-col gap-5 h-screen">
+                              <div className="flex items-start gap-5">
                                     {/* <% products.forEach(function(product){ %> */}
-                                    <div class="w-60">
-                                          <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                                                <img class="h-48" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                                    <div className="w-60">
+                                          <div className="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
+                                                <img className="h-48" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
                                                       alt="" />
                                           </div>
                                           <div
-                                                class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
+                                                className="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
                                                 <div>
                                                       <h3>
                                                             {/* <%= product.name %> */} caska bag
@@ -43,8 +45,8 @@ const Shop = () => {
                                                       <h4>₹ {/* <%= product.price %> */} 1999</h4>
 
                                                 </div>
-                                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                                      <i class="ri-add-line"></i>
+                                                <a className="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                                      <i className="ri-add-line"></i>
                                                 </a>
                                           </div>
                                     </div>

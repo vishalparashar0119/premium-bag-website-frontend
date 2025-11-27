@@ -2,9 +2,11 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
+  const navigate = useNavigate();
 
   const registerSchema = z.object({
     fullName: z.string().min(1, 'Name must be at least 1 character long'),
@@ -30,9 +32,11 @@ function Login() {
   const onSubmit = async (data) => {
 
     try {
-      const res = await axios.post('http://localhost:3000/users/register' , {fullName : data.fullName , email : data.email , password : data.password} )
+      const res = await axios.post('http://localhost:3000/users/register' , {fullName : data.fullName , email : data.email , password : data.password} ,{
+        withCredentials : true   
+      } )
 
-      if(res.data.success) Navigate('/shop')
+      if(res.data.success) navigate('/shop');
 
       setError('root' , {message : res.data.message})
       console.log(res)

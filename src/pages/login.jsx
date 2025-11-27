@@ -32,13 +32,13 @@ function Login() {
   const onSubmit = async (data) => {
 
     try {
-      const res = await axios.post('http://localhost:3000/users/register' , {fullName : data.fullName , email : data.email , password : data.password} ,{
-        withCredentials : true   
-      } )
+      const res = await axios.post('http://localhost:3000/users/register', { fullName: data.fullName, email: data.email, password: data.password }, {
+        withCredentials: true
+      })
 
-      if(res.data.success) navigate('/shop');
+      if (res.data.success) navigate('/shop');
 
-      setError('root' , {message : res.data.message})
+      setError('root', { message: res.data.message })
       console.log(res)
     } catch (error) {
       setError('root ', {
@@ -51,7 +51,17 @@ function Login() {
 
 
   const onLoginSubmit = async (data) => {
-    console.log("Form data:", data);
+
+    try {
+      const response = await axios.post('http://localhost:3000/users/login', { email: data.email, password: data.password }, {
+        withCredentials: true
+      })
+
+      if (response.data.success) navigate('/shop'); 
+
+    } catch (error) {
+      setError('root', { message: error.response?.data?.message || error.message });
+    }
 
     await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -65,7 +75,7 @@ function Login() {
         errors.root && (
           <div className="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500">
             <span className="inline-block mt-1 mb-1 text-white">
-              somthing went wrong , please try again
+              {errors.root.message}
             </span>
           </div>
         )

@@ -1,7 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Shop = () => {
 
+      const navigate = useNavigate();
+
+      useEffect( () => {
+            async function fetchProducts(){
+
+                  try{
+
+                        const response =  await axios.get('http://localhost:3000/shop' , {
+                              withCredentials : true
+                        });
+                        
+                        if( !response.data.success)   navigate('/');
+                        
+                        console.log(response.data.message);
+                  } catch (error) {
+                        console.log( error.message);
+                        navigate('/');
+                  }
+                        
+            } 
+
+            fetchProducts();
+      } , [])
 
       return (
             <>

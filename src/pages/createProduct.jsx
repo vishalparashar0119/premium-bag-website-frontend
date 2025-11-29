@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import React from 'react'
 import { z } from 'zod'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 
 
@@ -10,9 +11,9 @@ const CreateProduct = () => {
 
 
       const registerSchema = z.object({
-            productName: z.string().min(1 , 'Name is required'),
+            productName: z.string().min(1, 'Name is required'),
             image: z.any(),
-            price: z.string().min(1 , 'Price is required'),
+            price: z.string().min(1, 'Price is required'),
             discount: z.string().optional(),
             backgroundColor: z.string().optional(),
             pannelColor: z.string().optional(),
@@ -22,7 +23,31 @@ const CreateProduct = () => {
       const { handleSubmit, formState: { errors, isSubmitting }, register, } = useForm({ resolver: zodResolver(registerSchema) });
 
       const onSubmit = async (data) => {
-            console.log(data)
+            console.log(data);
+            const formData = new FormData();
+            formData.append('productName', data.productName);
+            formData.append('price', data.price);
+            formData.append('image', data.image[0]);
+            formData.append('discount', data.discount);
+            formData.append('backgroundColor', data.backgroundColor);
+            formData.append('pannelColor', data.pannelColor);
+            formData.append('textColor', data.textColor);
+
+            try {
+                  const response = await axios.post('http://localhost:3000/owners/createProduct', formData, {
+                        headers: {
+                              'Content-Type': 'multipart/form-data',
+                        },
+                        withCredentials : true,
+                  });
+
+                  if(response.data.success){
+                        console.log('product created successfully');
+                  }
+
+            } catch (error) {
+                  console.log(error.response.data.message)
+            }
       }
 
       return (

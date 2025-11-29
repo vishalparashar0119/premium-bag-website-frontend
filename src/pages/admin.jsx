@@ -1,123 +1,124 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Admin = () => {
-  return (
-    <div>
-      {/* <%- include('./partials/header') %> */}
-    <div class="w-full h-screen flex items-start px-20 py-20">
-        <div class="w-[25%] flex h-screen flex-col items-start">
-            <div class="flex flex-col">
-                <a class="block w-fit mb-2" href="">All Products</a>
-                <a class="block w-fit mb-2" href="">Create new product</a>
+    return (
+        <div>
+            {/* <%- include('./partials/header') %> */}
+            <div class="w-full h-screen flex items-start px-20 py-20">
+                <div class="w-[25%] flex h-screen flex-col items-start">
+                    <div class="flex flex-col">
+                        <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
+                        <Link className="block w-fit mb-2" to='/createProduct'>Create new product</Link>
+                    </div>
+                </div>
+                <div class="w-[75%] flex flex-col gap-5 h-screen">
+                    <a class="text-red-500" href="">Delete all</a>
+                    <div class="flex items-start gap-5">
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-5">
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="w-60 bg-red-500">
+                            <div class="w-full h-52 bg-yellow-500"></div>
+                            <div class="flex justify-between items-center px-4 py-4">
+                                <div>
+                                    <h3>Clinge Bag</h3>
+                                    <h4>₹ 1200</h4>
+                                </div>
+                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                    <i class="ri-add-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {/* <%- include('./partials/footer') %> */}
         </div>
-        <div class="w-[75%] flex flex-col gap-5 h-screen">
-            <a class="text-red-500" href="">Delete all</a>
-            <div class="flex items-start gap-5">
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-start gap-5">
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {/* <%- include('./partials/footer') %> */}
-    </div>
-  )
+    )
 }
 
 export default Admin

@@ -57,7 +57,7 @@ function Login() {
         withCredentials: true
       })
 
-      if (response.data.success) navigate('/shop'); 
+      if (response.data.success) navigate('/shop');
 
     } catch (error) {
       setError('root', { message: error.response?.data?.message || error.message });

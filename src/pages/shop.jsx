@@ -1,33 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+
 
 const Shop = () => {
 
       const navigate = useNavigate();
+      const [products, setProducts] = useState([]);
 
-      useEffect( () => {
-            async function fetchProducts(){
+      async function fetchProducts() {
 
-                  try{
+            try {
 
-                        const response =  await axios.get('http://localhost:3000/shop' , {
-                              withCredentials : true
-                        });
-                        
-                        if( !response.data.success)   navigate('/');
-                        
-                        console.log(response.data.message);
-                  } catch (error) {
-                        console.log( error.message);
-                        navigate('/');
-                  }
-                        
-            } 
+                  const response = await axios.get('http://localhost:3000/shop', {
+                        withCredentials: true
+                  });
+
+                  if (!response.data.success) navigate('/');
+
+                  setProducts(response.data.products);
+
+            } catch (error) {
+                  console.log(error.message);
+                  navigate('/');
+            }
+
+      }
+
+
+      useEffect(() => {
 
             fetchProducts();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      } , [])
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
 
       return (
             <>
@@ -57,25 +62,32 @@ const Shop = () => {
                         <div className="w-[75%] flex flex-col gap-5 h-screen">
                               <div className="flex items-start gap-5">
                                     {/* <% products.forEach(function(product){ %> */}
-                                    <div className="w-60">
-                                          <div className="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                                                <img className="h-48" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                                                      alt="" />
-                                          </div>
-                                          <div
-                                                className="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                                                <div>
-                                                      <h3>
-                                                            {/* <%= product.name %> */} caska bag
-                                                      </h3>
-                                                      <h4>₹ {/* <%= product.price %> */} 1999</h4>
+                                    {
+                                          products.map((product , index) => {
+                                                return (
+                                                      <div key={index} className="w-60">
+                                                            <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
+                                                                  <img className="h-48" src={product.image.imageUrl}
+                                                                        alt=''/>
+                                                            </div>
+                                                            <div
+                                                                  className={`flex justify-between bg-[#DEBEAE] items-center px-4 py-4 text-[#774f3d]`}>
+                                                                  <div>
+                                                                        <h3>
+                                                                             {product.productName}
+                                                                        </h3>
+                                                                        <h4>₹  {product.price}</h4>
 
-                                                </div>
-                                                <a className="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                                      <i className="ri-add-line"></i>
-                                                </a>
-                                          </div>
-                                    </div>
+                                                                  </div>
+                                                                  <a className="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
+                                                                        <i className="ri-add-line"></i>
+                                                                  </a>
+                                                            </div>
+                                                      </div>
+                                                )
+                                          })
+                                    }
+
                                     {/* <% }) %> */}
                               </div>
                         </div>

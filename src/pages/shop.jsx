@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Loader from '../components/loader';
 
 
 const Shop = () => {
 
       const navigate = useNavigate();
       const [products, setProducts] = useState([]);
+      const [loading , setLoading]  = useState(true);
 
       async function fetchProducts() {
 
@@ -19,6 +21,7 @@ const Shop = () => {
                   if (!response.data.success) navigate('/');
 
                   setProducts(response.data.products);
+                  setLoading(false);
 
             } catch (error) {
                   console.log(error.message);
@@ -33,6 +36,10 @@ const Shop = () => {
             fetchProducts();
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
+
+      if(loading){
+            return <Loader/>
+      }
 
       return (
             <>

@@ -3,10 +3,13 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Bounce, ToastContainer, toast } from 'react-toastify'
 
 function Login() {
 
   const navigate = useNavigate();
+
+  const notify = (message) => toast.error(message)
 
   const registerSchema = z.object({
     fullName: z.string().min(1, 'Name must be at least 1 character long'),
@@ -19,7 +22,7 @@ function Login() {
     password: z.string().min(6, 'Passowrd must me 6 digit long'),
   })
 
-  const { register, formState: { errors, isSubmitting }, handleSubmit, setError } = useForm({
+  const { register, formState: { errors, isSubmitting }, handleSubmit } = useForm({
     resolver: zodResolver(registerSchema)
   });
 
@@ -38,12 +41,10 @@ function Login() {
 
       if (res.data.success) navigate('/shop');
 
-      setError('root', { message: res.data.message })
+      notify(res.data.message)
       console.log(res)
     } catch (error) {
-      setError('root ', {
-        message: error.message
-      })
+      notify(error.res.data.message)
     }
 
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -60,7 +61,7 @@ function Login() {
       if (response.data.success) navigate('/shop');
 
     } catch (error) {
-      setError('root', { message: error.response?.data?.message || error.message });
+      notify(error.response?.data?.message || error.message);
     }
 
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -162,6 +163,18 @@ function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce} />
     </>
   )
 }

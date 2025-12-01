@@ -136,12 +136,7 @@ function Login() {
               {/* email */}
               <input
                 className="block bg-zinc-100 w-full px-3 py-2 border rounded-md mb-3 border-zinc-200"
-                type="email" placeholder="Email" {...loginRegister('email', {
-                  required: ' email is require', pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                    , message: 'invalid email address'
-                  }
-                })} />
+                type="email" placeholder="Email" {...loginRegister('email')} />
               {
                 loginErrors.password && (
                   <p className='text-orange-500'>{loginErrors.email.message}</p>
@@ -150,7 +145,7 @@ function Login() {
               {/* password */}
               <input
                 className="block bg-zinc-100 w-full px-3 py-2 border rounded-md mb-3 border-zinc-200"
-                type="password" placeholder="Password"  {...loginRegister('password', { required: 'password is require' })} />
+                type="password" placeholder="Password"  {...loginRegister('password')} />
               {
                 loginErrors.password && (
                   <p className='text-orange-500'>{loginErrors.password.message}</p>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
+import Navbar from '../components/navbar';
 
 
 const Shop = () => {
@@ -43,7 +44,7 @@ const Shop = () => {
 
       return (
             <>
-
+            <Navbar/>
                   <div className="w-full h-screen flex items-start px-20 py-20">
                         <div className="w-[25%] flex h-screen flex-col items-start">
                               <div className="flex items-center gap-2">

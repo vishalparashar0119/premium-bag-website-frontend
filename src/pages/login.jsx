@@ -72,16 +72,6 @@ function Login() {
 
   return (
     <>
-      {
-        errors.root && (
-          <div className="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-red-500">
-            <span className="inline-block mt-1 mb-1 text-white">
-              {errors.root.message}
-            </span>
-          </div>
-        )
-      }
-
       <div className="w-full h-screen flex px-20">
         <div className="w-1/2 flex items-center justify-center h-screen">
           <div className="w-full px-32">

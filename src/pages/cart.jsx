@@ -1,57 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
+import { MdDelete } from "react-icons/md";
+import Loader from '../components/loader'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Cart = () => {
-      const cartItems = [
-            {
-                  id: 1,
-                  name: "Clinge Bag",
-                  color: "Black",
-                  price: 1200,
-                  image: "https://res.cloudinary.com/ddipugf3l/image/upload/v1764336678/premiumBagWebsiteProduct/rt3jau2ajrqfnzfulhd0.jpg",
-                  qty: 1,
-            },
-            {
-                  id: 2,
-                  name: "Premium Leather Bag",
-                  color: "Brown",
-                  price: 1720,
-                  image: "https://res.cloudinary.com/ddipugf3l/image/upload/v1764405516/premiumBagWebsiteProduct/yoddit4tro5njifx81jm.jpg",
-                  qty: 2,
-            },
-            {
-                  id: 2,
-                  name: "Premium Leather Bag",
-                  color: "Brown",
-                  price: 1720,
-                  image: "https://res.cloudinary.com/ddipugf3l/image/upload/v1764405516/premiumBagWebsiteProduct/yoddit4tro5njifx81jm.jpg",
-                  qty: 2,
-            },
-            {
-                  id: 2,
-                  name: "Premium Leather Bag",
-                  color: "Brown",
-                  price: 1720,
-                  image: "https://res.cloudinary.com/ddipugf3l/image/upload/v1764405516/premiumBagWebsiteProduct/yoddit4tro5njifx81jm.jpg",
-                  qty: 2,
-            },
-            {
-                  id: 2,
-                  name: "Premium Leather Bag",
-                  color: "Brown",
-                  price: 1720,
-                  image: "https://res.cloudinary.com/ddipugf3l/image/upload/v1764405516/premiumBagWebsiteProduct/yoddit4tro5njifx81jm.jpg",
-                  qty: 2,
-            },
-            {
-                  id: 2,
-                  name: "Premium Leather Bag",
-                  color: "Brown",
-                  price: 1720,
-                  image: "https://res.cloudinary.com/ddipugf3l/image/upload/v1764405516/premiumBagWebsiteProduct/yoddit4tro5njifx81jm.jpg",
-                  qty: 2,
-            },
-      ];
+
+      const [isLoading, setIsLoading] = useState(true);
+      const [cartData, setCartData] = useState();
+      const navigate = useNavigate();
+
+      const fetchCartData = async () => {
+            try {
+                  const response = await axios.get('http://localhost:3000/users/cart', { withCredentials: true });
+
+                  if (!response.data.success) navigate('/');
+
+                  setCartData(response.data.cartData.cart);
+                  setIsLoading(false);
+            } catch (error) {
+                  console.log(error.response.data.message)
+            }
+      }
+
+      useEffect(() => {
+
+            fetchCartData();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
+
+      if (isLoading) {
+            return <Loader />
+      }
 
       return (
             <>
@@ -63,23 +45,24 @@ const Cart = () => {
 
                               <h2 className="text-2xl font-semibold mb-4">Shopping Cart</h2>
 
-                              {cartItems.map((item, index) => (
-                                    <div key={item.id}>
+                              {cartData.map((item, index) => (
+                                    <div key={index}>
+
                                           {/* ITEM ROW */}
                                           <div className="flex py-6 gap-6">
 
                                                 {/* IMAGE */}
                                                 <div className="w-40 h-40 bg-yellow-500 rounded overflow-hidden">
                                                       <img
-                                                            src={item.image}
+                                                            src={item.image.imageUrl}
                                                             className="w-full h-full object-cover"
                                                       />
                                                 </div>
 
                                                 {/* DETAILS */}
                                                 <div className="flex-1">
-                                                      <h3 className="text-lg font-medium">{item.name}</h3>
-                                                      <p className="text-sm text-gray-500">Colour: {item.color}</p>
+                                                      <h3 className="text-lg font-medium">{item.productName}</h3>
+                                                      <p className="text-sm text-gray-500">Colour: Black</p>
                                                       <p className="text-green-600 text-sm mt-1">In stock</p>
 
                                                       {/* QUANTITY + DELETE */}
@@ -88,18 +71,13 @@ const Cart = () => {
                                                             {/* QTY BUTTONS LIKE AMAZON */}
                                                             <div className="flex items-center gap-2 border rounded-full px-3 py-1">
                                                                   <button className="text-lg">-</button>
-                                                                  <span>{item.qty}</span>
+                                                                  <span>1</span>
                                                                   <button className="text-lg">+</button>
                                                             </div>
 
                                                             {/* DELETE */}
-                                                            <button className="text-blue-600 text-sm hover:underline">
-                                                                  Delete
-                                                            </button>
-
-                                                            {/* SAVE FOR LATER */}
-                                                            <button className="text-blue-600 text-sm hover:underline">
-                                                                  Save for later
+                                                            <button className=" bg-red-500  hover:bg-red-600 text-white w-9 h-9 rounded-full flex justify-center items-center cursor-pointer">
+                                                                  <MdDelete className="w-6 h-6" />
                                                             </button>
                                                       </div>
                                                 </div>
@@ -111,7 +89,7 @@ const Cart = () => {
                                           </div>
 
                                           {/* DIVIDER */}
-                                          {index !== cartItems.length - 1 && (
+                                          {index !== cartData.length - 1 && (
                                                 <div className="w-full h-px bg-gray-300"></div>
                                           )}
                                     </div>
@@ -120,8 +98,8 @@ const Cart = () => {
                               {/* TOTAL VALUE AT THE BOTTOM */}
                               <div className="flex justify-end mt-6 text-xl font-semibold">
                                     Total: ₹
-                                    {cartItems.reduce(
-                                          (acc, item) => acc + item.price * item.qty,
+                                    {cartData.reduce(
+                                          (acc, item) => acc + item.price,
                                           0
                                     )}
                               </div>
@@ -135,8 +113,8 @@ const Cart = () => {
                                     <span>Items:</span>
                                     <span>
                                           ₹{" "}
-                                          {cartItems.reduce(
-                                                (acc, item) => acc + item.price * item.qty,
+                                          {cartData.reduce(
+                                                (acc, item) => acc + item.price,
                                                 0
                                           )}
                                     </span>

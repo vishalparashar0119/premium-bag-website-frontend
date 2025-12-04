@@ -3,13 +3,14 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
 import Navbar from '../components/navbar';
+import { CiCirclePlus } from "react-icons/ci";
 
 
 const Shop = () => {
 
       const navigate = useNavigate();
       const [products, setProducts] = useState([]);
-      const [loading , setLoading]  = useState(true);
+      const [loading, setLoading] = useState(true);
 
       async function fetchProducts() {
 
@@ -31,6 +32,19 @@ const Shop = () => {
 
       }
 
+      const addToCart = async (productId) => {
+            console.log(productId);
+
+            try {
+                  const response = await axios.post(`http://localhost:3000/users/addToCart/${productId}`, {}, {
+                        withCredentials: true
+                  })
+                  console.log(response.data.message);
+            } catch (error) {
+                  console.log(error.response.data.message);
+            }
+      }
+
 
       useEffect(() => {
 
@@ -38,13 +52,13 @@ const Shop = () => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
 
-      if(loading){
-            return <Loader/>
+      if (loading) {
+            return <Loader />
       }
 
       return (
             <>
-            <Navbar/>
+                  <Navbar />
                   <div className="w-full h-screen flex items-start px-20 py-20">
                         <div className="w-[25%] flex h-screen flex-col items-start">
                               <div className="flex items-center gap-2">
@@ -71,25 +85,27 @@ const Shop = () => {
                               <div className="flex items-start gap-5">
                                     {/* <% products.forEach(function(product){ %> */}
                                     {
-                                          products.map((product , index) => {
+                                          products.map((product, index) => {
                                                 return (
                                                       <div key={index} className="w-60">
                                                             <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
                                                                   <img className="h-48" src={product.image.imageUrl}
-                                                                        alt=''/>
+                                                                        alt='' />
                                                             </div>
                                                             <div
                                                                   className={`flex justify-between bg-[#DEBEAE] items-center px-4 py-4 text-[#774f3d]`}>
                                                                   <div>
                                                                         <h3>
-                                                                             {product.productName}
+                                                                              {product.productName}
                                                                         </h3>
                                                                         <h4>₹  {product.price}</h4>
 
                                                                   </div>
-                                                                  <a className="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                                                        <i className="ri-add-line"></i>
-                                                                  </a>
+                                                                  <button onClick={() => {
+                                                                        addToCart(product._id)
+                                                                  }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white">
+                                                                        <CiCirclePlus className='w-7 h-7 cursor-pointer' />
+                                                                  </button>
                                                             </div>
                                                       </div>
                                                 )

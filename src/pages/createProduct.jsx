@@ -4,11 +4,15 @@ import React from 'react'
 import { z } from 'zod'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { Bounce , toast , ToastContainer } from 'react-toastify'
 
 
 
 const CreateProduct = () => {
 
+
+      const notifySuccess = (message) => toast.success(message) 
+      const notifyError = (message) => toast.error(message) 
 
       const registerSchema = z.object({
             productName: z.string().min(1, 'Name is required'),
@@ -38,32 +42,26 @@ const CreateProduct = () => {
                         headers: {
                               'Content-Type': 'multipart/form-data',
                         },
-                        withCredentials : true,
+                        withCredentials: true,
                   });
 
-                  if(response.data.success){
-                        console.log('product created successfully');
-                  }
+                  notifySuccess(response.data.message);
 
             } catch (error) {
-                  console.log(error.response.data.message)
+                notifyError(error.response.data.message || error.message);
             }
       }
 
       return (
             <>
-                  <div className="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500">
-                        <span className="inline-block mt-1 mb-1 text-white">
-                              success
-                        </span>
-                  </div>
+
 
                   <div className="min-h-screen flex flex-col">
                         <div className="container px-10 py-20 flex grow">
                               <div className="w-[25%] flex h-screen flex-col items-start">
                                     <div className="flex flex-col">
                                           <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
-                                          <Link className="block w-fit mb-2" to='/createProduct'>Create new product</Link>
+                                          <Link className="block w-fit mb-2" to='/admin/createProduct'>Create new product</Link>
                                     </div>
                               </div>
                               <main className="w-3/4 bg-white p-8 shadow ml-4">
@@ -141,6 +139,20 @@ const CreateProduct = () => {
                               </main>
                         </div>
                   </div>
+                  <ToastContainer
+                        position="top-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick={false}
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                        transition={Bounce}
+                  />
+
             </>
       )
 }

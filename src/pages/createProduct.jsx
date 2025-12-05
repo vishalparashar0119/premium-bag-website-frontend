@@ -79,6 +79,8 @@ const CreateProduct = () => {
                                                       }
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-4">
+
+                                                      <div className='flex flex-col'>
                                                       <input {...register('productName')} type="text" placeholder="Product Name"
                                                             className="border p-2 rounded w-full" />
                                                       {
@@ -86,6 +88,9 @@ const CreateProduct = () => {
                                                                   <p className='text-orange-600'>{errors.productName.message}</p>
                                                             )
                                                       }
+                                                      </div>
+                                                      <div className='flex flex-col'>
+
                                                       <input {...register('price')} type="text" placeholder="Product Price"
                                                             className="border p-2 rounded w-full" />
                                                       {
@@ -93,6 +98,9 @@ const CreateProduct = () => {
                                                                   <p className='text-orange-600'>{errors.price.message}</p>
                                                             )
                                                       }
+                                                      </div>
+                                                      <div className='flex flex-col'>
+
                                                       <input {...register('discount')} type="text" placeholder="Discount Price"
                                                             className="border p-2 rounded w-full" />
                                                       {
@@ -100,6 +108,7 @@ const CreateProduct = () => {
                                                                   <p className='text-orange-600'>{errors.discount.message}</p>
                                                             )
                                                       }
+                                                      </div>
                                                 </div>
                                           </div>
 

@@ -1,8 +1,8 @@
 import axios from 'axios'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Bounce, toast , ToastContainer } from 'react-toastify'
+import { Outlet } from 'react-router-dom'
 
 const Navbar = () => {
 
@@ -18,6 +18,7 @@ const Navbar = () => {
             }
       }
       return (
+            <>
             <div className="">
                   <nav className="w-full fixed top-0 left-0 px-5 py-3 flex justify-between items-center ">
                         <h3 className="text-xl">Scatch</h3>
@@ -31,6 +32,8 @@ const Navbar = () => {
                   </nav>
                   <ToastContainer position='top-center' transition={Bounce}/>
             </div>
+            <Outlet/>
+            </>
       )
 }
 

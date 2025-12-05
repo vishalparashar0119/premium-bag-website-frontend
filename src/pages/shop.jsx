@@ -58,7 +58,6 @@ const Shop = () => {
 
       return (
             <>
-                  <Navbar />
                   <div className="w-full h-screen flex items-start px-20 py-20">
                         <div className="w-[25%] flex h-screen flex-col items-start">
                               <div className="flex items-center gap-2">

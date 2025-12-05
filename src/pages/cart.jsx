@@ -38,7 +38,7 @@ const Cart = () => {
 
       return (
             <>
-                  <Navbar />
+                  
                   <div className="w-full min-h-screen bg-gray-100 px-10 py-10 flex gap-8">
 
                         {/* LEFT SIDE CART ITEMS */}

@@ -6,17 +6,22 @@ import Admin from './pages/admin.jsx';
 import CreateProduct from './pages/createProduct.jsx';
 import Cart from './pages/cart.jsx';
 import MyAccount from './pages/myAccountPage.jsx';
+import Navbar from './components/navbar.jsx';
 
 
 const App = () => {
   return (
     <Routes>
       <Route path='/' element={<Login/>}/>
+
+
+      <Route  element={<Navbar/>}>
       <Route path='/shop' element={<Shop/>}/>
       <Route path='/admin' element={<Admin/>}/>
       <Route path='/admin/createProduct' element={<CreateProduct/>}/>
       <Route path='/cart' element={<Cart/>}/>
       <Route path='/myAccount' element={<MyAccount/>}/>
+      </Route>
       
     </Routes>
   )

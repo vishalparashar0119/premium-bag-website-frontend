@@ -1,10 +1,51 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import Loader from '../components/loader';
+import { MdDelete } from 'react-icons/md';
 
 const Admin = () => {
+
+    const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    async function fetchProducts() {
+
+        try {
+
+            const response = await axios.get('http://localhost:3000/shop', {
+                withCredentials: true
+            });
+
+            if (!response.data.success) navigate('/');
+
+            setProducts(response.data.products);
+            setLoading(false);
+
+        } catch (error) {
+            console.log(error.message);
+            navigate('/');
+        }
+
+    }
+
+
+
+
+    useEffect(() => {
+
+        fetchProducts();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    if (loading) {
+        return <Loader />
+    }
+
     return (
         <div>
-            {/* <%- include('./partials/header') %> */}
+
             <div class="w-full h-screen flex items-start px-20 py-20">
                 <div class="w-[25%] flex h-screen flex-col items-start">
                     <div class="flex flex-col">
@@ -14,109 +55,42 @@ const Admin = () => {
                 </div>
                 <div class="w-[75%] flex flex-col gap-5 h-screen">
                     <a class="text-red-500" href="">Delete all</a>
-                    <div class="flex items-start gap-5">
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
+                    <div className='flex flex-wrap gap-5'>
+
+                        {
+                            products.map((product, index) => {
+                                return (
+                                    <Link to={`/productIfo/${product._id}`}>
+                                    <div key={index} class="flex flex-wrap gap-5">
+
+                                        <div class="w-60 bg-yellow-600">
+                                            <div class="w-full h-52 bg-yellow-500">
+                                                <img src={product.image.imageUrl} alt=""  className='w-full h-full object-cover '/>
+                                            </div>
+                                            <div class="flex justify-between items-center px-4 py-4">
+                                                <div>
+                                                    <h3>{product.productName}</h3>
+                                                    <h4>₹ {product.price}</h4>  
+                                                </div>
+                                                <button onClick={(e)=>{
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                }} className=" bg-red-600  hover:bg-red-700 text-white w-9 h-9 rounded-full flex justify-center items-center cursor-pointer">
+                                                    <MdDelete className="w-6 h-6" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </Link>
+                                )
+                            })
+                        }
+
                     </div>
-                    <div class="flex items-start gap-5">
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-60 bg-red-500">
-                            <div class="w-full h-52 bg-yellow-500"></div>
-                            <div class="flex justify-between items-center px-4 py-4">
-                                <div>
-                                    <h3>Clinge Bag</h3>
-                                    <h4>₹ 1200</h4>
-                                </div>
-                                <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                                    <i class="ri-add-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
-            {/* <%- include('./partials/footer') %> */}
         </div>
     )
 }

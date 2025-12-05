@@ -82,7 +82,7 @@ const Shop = () => {
                               </div>
                         </div>
                         <div className="w-[75%] flex flex-col gap-5 h-screen">
-                              <div className="flex items-start gap-5">
+                              <div className="flex items-start gap-5 flex-wrap">
                                     {/* <% products.forEach(function(product){ %> */}
                                     {
                                           products.map((product, index) => {

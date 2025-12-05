@@ -9,7 +9,7 @@ const Admin = () => {
                 <div class="w-[25%] flex h-screen flex-col items-start">
                     <div class="flex flex-col">
                         <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
-                        <Link className="block w-fit mb-2" to='/createProduct'>Create new product</Link>
+                        <Link className="block w-fit mb-2" to='/admin/createProduct'>Create new product</Link>
                     </div>
                 </div>
                 <div class="w-[75%] flex flex-col gap-5 h-screen">

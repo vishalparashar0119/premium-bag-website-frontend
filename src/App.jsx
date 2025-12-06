@@ -8,6 +8,7 @@ import Cart from './pages/cart.jsx';
 import MyAccount from './pages/myAccountPage.jsx';
 import Navbar from './components/navbar.jsx';
 import ProductInfo from './pages/productInfo.jsx';
+import Order from './pages/orderPage.jsx';
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
       <Route path='/cart' element={<Cart/>}/>
       <Route path='/myAccount' element={<MyAccount/>}/>
       <Route path='/productInfo/:id' element={<ProductInfo/>}/>
+      <Route path='/order' element={<Order/>}/>
       </Route>
       
     </Routes>

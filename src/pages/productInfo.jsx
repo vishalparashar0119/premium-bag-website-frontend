@@ -1,25 +1,43 @@
-import React from "react";
-import Navbar from "../components/navbar";
+import React, { useEffect, useState } from "react";
 import { MdStar, MdStarHalf, MdStarBorder } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import Loader from "../components/loader";
 
 const ProductInfo = () => {
-  
-      const {id} = useParams();
+
+  const { id } = useParams();
   // Dummy product data (replace with real state when integrating)
-  console.log(id)
-  const product = {
-    productName: "Premium Leather Shoes",
-    price: 2499,
-    description:
-      "Experience unmatched comfort and premium design with these stylish leather shoes. Built for everyday use with high durability.",
-    image: {
-      imageUrl:
-        "https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress",
-    },
-    rating: 4.5,
-    stock: 5,
-  };
+  console.log(id);
+  
+  const navigate = useNavigate();
+  const [product, setProduct] = useState();
+  const [loading, setLoadig] = useState(true);
+
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/products/product/${id}`, { withCredentials: true });
+
+      if (!response.data.success) navigate('/');
+      
+      console.log(response.data)
+      setProduct(response.data.product);
+      setLoadig(false);
+
+    } catch (error) {
+      console.log(error.response.data.message);
+      navigate('/')
+    }
+  }
+
+  useEffect(() =>{
+     fetchProduct()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+  if(loading) {
+    return <Loader/>
+  }
 
   return (
     <>
@@ -75,7 +93,7 @@ const ProductInfo = () => {
             <div className="mt-6">
               <h3 className="text-lg font-semibold mb-1">About this item</h3>
               <p className="text-gray-600 leading-relaxed">
-                {product.description}
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus velit ipsum non libero explicabo nisi mollitia quo, quis voluptatum necessitatibus assumenda! Maiores inventore modi soluta!
               </p>
             </div>
 
@@ -92,31 +110,6 @@ const ProductInfo = () => {
           </div>
         </div>
 
-        {/* EXTRA SECTION: RELATED PRODUCTS */}
-        <div className="mt-10">
-          <h2 className="text-2xl font-semibold mb-5">Related Products</h2>
-
-          <div className="grid grid-cols-4 gap-6">
-
-            {[1, 2, 3, 4].map((n) => (
-              <div
-                key={n}
-                className="bg-white rounded-lg shadow p-4 cursor-pointer hover:scale-105 transition"
-              >
-                <div className="w-full h-40 bg-gray-200 rounded overflow-hidden">
-                  <img
-                    src="https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                <h4 className="font-medium mt-2">Sample Shoe {n}</h4>
-                <p className="text-green-600 font-semibold">₹ 1999</p>
-              </div>
-            ))}
-
-          </div>
-        </div>
 
       </div>
     </>

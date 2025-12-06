@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
-import Navbar from '../components/navbar';
 import { CiCirclePlus } from "react-icons/ci";
 
 
@@ -86,27 +85,31 @@ const Shop = () => {
                                     {
                                           products.map((product, index) => {
                                                 return (
-                                                      <div key={index} className="w-60">
-                                                            <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
-                                                                  <img className="h-48" src={product.image.imageUrl}
-                                                                        alt='' />
-                                                            </div>
-                                                            <div
-                                                                  className={`flex justify-between bg-[#DEBEAE] items-center px-4 py-4 text-[#774f3d]`}>
-                                                                  <div>
-                                                                        <h3>
-                                                                              {product.productName}
-                                                                        </h3>
-                                                                        <h4>₹  {product.price}</h4>
-
+                                                      <Link to={`/productInfo/${product._id}`}>
+                                                            <div key={index} className="w-60">
+                                                                  <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
+                                                                        <img className="h-48" src={product.image.imageUrl}
+                                                                              alt='' />
                                                                   </div>
-                                                                  <button onClick={() => {
-                                                                        addToCart(product._id)
-                                                                  }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white">
-                                                                        <CiCirclePlus className='w-7 h-7 cursor-pointer' />
-                                                                  </button>
+                                                                  <div
+                                                                        className={`flex justify-between bg-[#DEBEAE] items-center px-4 py-4 text-[#774f3d]`}>
+                                                                        <div>
+                                                                              <h3>
+                                                                                    {product.productName}
+                                                                              </h3>
+                                                                              <h4>₹  {product.price}</h4>
+
+                                                                        </div>
+                                                                        <button onClick={(e) => {
+                                                                              e.preventDefault();
+                                                                              e.stopPropagation();
+                                                                              addToCart(product._id)
+                                                                        }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white">
+                                                                              <CiCirclePlus className='w-7 h-7 cursor-pointer' />
+                                                                        </button>
+                                                                  </div>
                                                             </div>
-                                                      </div>
+                                                      </Link>
                                                 )
                                           })
                                     }

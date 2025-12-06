@@ -46,28 +46,28 @@ const Admin = () => {
     return (
         <div>
 
-            <div class="w-full h-screen flex items-start px-20 py-20">
-                <div class="w-[25%] flex h-screen flex-col items-start">
-                    <div class="flex flex-col">
+            <div className="w-full h-screen flex items-start px-20 py-20">
+                <div className="w-[25%] flex h-screen flex-col items-start">
+                    <div className="flex flex-col">
                         <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
                         <Link className="block w-fit mb-2" to='/admin/createProduct'>Create new product</Link>
                     </div>
                 </div>
-                <div class="w-[75%] flex flex-col gap-5 h-screen">
-                    <a class="text-red-500" href="">Delete all</a>
+                <div className="w-[75%] flex flex-col gap-5 h-screen">
+                    <a className="text-red-500" href="">Delete all</a>
                     <div className='flex flex-wrap gap-5'>
 
                         {
                             products.map((product, index) => {
                                 return (
-                                    <Link to={`/productIfo/${product._id}`}>
-                                    <div key={index} class="flex flex-wrap gap-5">
+                                    <Link to={`/productInfo/${product._id}`}>
+                                    <div key={index} className="flex flex-wrap gap-5">
 
-                                        <div class="w-60 bg-yellow-600">
-                                            <div class="w-full h-52 bg-yellow-500">
+                                        <div className="w-60 bg-yellow-600">
+                                            <div className="w-full h-52 bg-yellow-500">
                                                 <img src={product.image.imageUrl} alt=""  className='w-full h-full object-cover '/>
                                             </div>
-                                            <div class="flex justify-between items-center px-4 py-4">
+                                            <div className="flex justify-between items-center px-4 py-4">
                                                 <div>
                                                     <h3>{product.productName}</h3>
                                                     <h4>₹ {product.price}</h4>  

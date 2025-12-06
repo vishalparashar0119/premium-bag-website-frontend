@@ -74,9 +74,9 @@ const Shop = () => {
                                     <a className="block w-fit mb-2" href="">Discounted Products</a>
                               </div>
                               <div className="mt-32">
-                                    <a className="block w-fit mb-2" href="">Filter by :</a>
-                                    <a className="block w-fit mb-2" href="">Availability</a>
-                                    <a className="block w-fit mb-2" href="">Discount</a>
+                                    <h1 className="block w-fit mb-2 font-bold">Filter by :</h1>
+                                    <button className="block w-fit mb-2 cursor-pointer">Availability</button>
+                                    <button className="block w-fit mb-2 cursor-pointer">Discount</button>
                               </div>
                         </div>
                         <div className="w-[75%] flex flex-col gap-5 h-screen">
@@ -88,7 +88,7 @@ const Shop = () => {
                                                       <Link to={`/productInfo/${product._id}`}>
                                                             <div key={index} className="w-60">
                                                                   <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
-                                                                        <img className="h-48" src={product.image.imageUrl}
+                                                                        <img className="h-full w-full object-cover" src={product.image.imageUrl}
                                                                               alt='' />
                                                                   </div>
                                                                   <div

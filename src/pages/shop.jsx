@@ -83,10 +83,10 @@ const Shop = () => {
                               <div className="flex items-start gap-5 flex-wrap">
                                     {/* <% products.forEach(function(product){ %> */}
                                     {
-                                          products.map((product, index) => {
+                                          products.map((product) => {
                                                 return (
-                                                      <Link to={`/productInfo/${product._id}`}>
-                                                            <div key={index} className="w-60">
+                                                      <Link key={product._id} to={`/productInfo/${product._id}`}>
+                                                            <div  className="w-60">
                                                                   <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
                                                                         <img className="h-full w-full object-cover" src={product.image.imageUrl}
                                                                               alt='' />

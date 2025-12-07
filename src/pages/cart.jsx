@@ -4,6 +4,9 @@ import { MdDelete } from "react-icons/md";
 import Loader from '../components/loader'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import { FaPlus, FaMinus } from "react-icons/fa6";
+
 
 
 const Cart = () => {
@@ -19,6 +22,7 @@ const Cart = () => {
                   if (!response.data.success) navigate('/');
 
                   setCartData(response.data.cartData.cart);
+                  console.log(response.data.cartData.cart);
                   setIsLoading(false);
             } catch (error) {
                   console.log(error.response.data.message)
@@ -32,13 +36,37 @@ const Cart = () => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
 
+      const removeToCart = async (id) => {
+            try {
+                  const response = await axios.post(`http://localhost:3000/users/removeToCart/${id}`, {}, { withCredentials: true });
+                  toast.success(response.data.message);
+                  setCartData(response.data.cartData);
+            } catch (error) {
+                  toast.error(error.response.data.message)
+            }
+      }
+
+      const updateQuantity = async (id, action) => {
+
+            try {
+                  
+                        const response = await axios.put('http://localhost:3000/users/updateQuantity', { id, action }, { withCredentials: true });
+                        setCartData(response.data.updatedCart.cart)
+                        console.log(response.data.message);
+                  
+            } catch (error) {
+                  console.log(error.message)
+            }
+      }
+
+
       if (isLoading) {
             return <Loader />
       }
 
       return (
             <>
-                  
+
                   <div className="w-full min-h-screen bg-gray-100 px-10 py-10 flex gap-8">
 
                         {/* LEFT SIDE CART ITEMS */}
@@ -55,14 +83,14 @@ const Cart = () => {
                                                 {/* IMAGE */}
                                                 <div className="w-40 h-40 bg-yellow-500 rounded overflow-hidden">
                                                       <img
-                                                            src={item.image.imageUrl}
+                                                            src={item.products.image.imageUrl}
                                                             className="w-full h-full object-cover"
                                                       />
                                                 </div>
 
                                                 {/* DETAILS */}
                                                 <div className="flex-1">
-                                                      <h3 className="text-lg font-medium">{item.productName}</h3>
+                                                      <h3 className="text-lg font-medium">{item.products.productName}</h3>
                                                       <p className="text-sm text-gray-500">Colour: Black</p>
                                                       <p className="text-green-600 text-sm mt-1">In stock</p>
 
@@ -71,13 +99,18 @@ const Cart = () => {
 
                                                             {/* QTY BUTTONS LIKE AMAZON */}
                                                             <div className="flex items-center gap-2 border rounded-full px-3 py-1">
-                                                                  <button className="text-lg">-</button>
-                                                                  <span>1</span>
-                                                                  <button className="text-lg">+</button>
+                                                                  {
+                                                                        item.quantity > 1 ? <button onClick={() => updateQuantity(item.products._id, 'decrease')} className="text-sm cursor-pointer"><FaMinus /></button>  : <button> </button>
+                                                                  }
+                                                                  
+                                                                  <span>{item.quantity}</span>
+                                                                  <button onClick={() => updateQuantity(item.products._id, 'increase')} className="text-sm cursor-pointer"><FaPlus /></button>
                                                             </div>
 
                                                             {/* DELETE */}
-                                                            <button className=" bg-red-500  hover:bg-red-600 text-white w-9 h-9 rounded-full flex justify-center items-center cursor-pointer">
+                                                            <button onClick={() => {
+                                                                  removeToCart(item.products._id);
+                                                            }} className=" bg-red-500  hover:bg-red-600 text-white w-9 h-9 rounded-full flex justify-center items-center cursor-pointer">
                                                                   <MdDelete className="w-6 h-6" />
                                                             </button>
                                                       </div>
@@ -85,7 +118,7 @@ const Cart = () => {
 
                                                 {/* PRICE */}
                                                 <div className="w-32 flex justify-end">
-                                                      <h3 className="text-lg font-semibold">₹ {item.price}</h3>
+                                                      <h3 className="text-lg font-semibold">₹ {item.products.price}</h3>
                                                 </div>
                                           </div>
 
@@ -100,7 +133,7 @@ const Cart = () => {
                               <div className="flex justify-end mt-6 text-xl font-semibold">
                                     Total: ₹
                                     {cartData.reduce(
-                                          (acc, item) => acc + item.price,
+                                          (acc, item) => acc + item.products.price * item.quantity,
                                           0
                                     )}
                               </div>
@@ -115,7 +148,7 @@ const Cart = () => {
                                     <span>
                                           ₹{" "}
                                           {cartData.reduce(
-                                                (acc, item) => acc + item.price,
+                                                (acc, item) => acc + item.products.price,
                                                 0
                                           )}
                                     </span>
@@ -126,6 +159,19 @@ const Cart = () => {
                               </button>
                         </div>
                   </div>
+                  <ToastContainer
+                        position="top-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick={false}
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                        transition={Bounce}
+                  />
             </>
       );
 };

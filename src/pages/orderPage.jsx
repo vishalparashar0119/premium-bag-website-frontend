@@ -6,12 +6,12 @@ const Order = () => {
       <div className="w-full min-h-screen bg-gray-100 px-10 py-20 flex gap-8">
 
         {/* LEFT SECTION */}
-        <div className="w-[70%] bg-white rounded-md shadow p-6">
+        <div className="w-[70%] bg-white rounded-md shadow py-6">
 
-          <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
+          <h2 className="text-2xl font-semibold ml-6 mb-6">Checkout</h2>
 
           {/* ADDRESS SECTION */}
-          <div className="border rounded-md p-5 mb-6">
+          <div className=" border-b-2 border-gray-300 p-5 mb-6">
             <h3 className="text-lg font-medium mb-3">
               Delivering to Vishal Parashar
             </h3>
@@ -31,7 +31,7 @@ const Order = () => {
           </div>
 
           {/* PAYMENT METHOD */}
-          <div className="border rounded-md p-5 mb-6">
+          <div className=" border-b-2 border-gray-300 p-5 mb-6">
             <h3 className="text-lg font-medium mb-4">Payment Method</h3>
 
             <div className="flex flex-col gap-4">
@@ -48,12 +48,12 @@ const Order = () => {
           </div>
 
           {/* ✅ PRODUCT PREVIEW CARD */}
-          <div className="border rounded-md p-5">
+          <div className=" rounded-md p-5 ">
             <h3 className="text-lg font-medium mb-4">
               Review Items
             </h3>
 
-            <div className="flex gap-6 items-start">
+            <div className="flex gap-6 items-start mb-6">
 
               {/* IMAGE */}
               <div className="w-32 h-32 bg-gray-200 rounded overflow-hidden">

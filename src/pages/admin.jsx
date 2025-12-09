@@ -14,7 +14,7 @@ const Admin = () => {
 
         try {
 
-            const response = await axios.get('http://localhost:3000/shop', {
+            const response = await axios.get('http://localhost:3000/owners', {
                 withCredentials: true
             });
 

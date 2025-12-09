@@ -1,18 +1,40 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { z } from 'zod'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Bounce , toast , ToastContainer } from 'react-toastify'
+import { Bounce, toast, ToastContainer } from 'react-toastify'
+import Loader from '../components/loader'
 
 
 
 const CreateProduct = () => {
 
+      const navigate = useNavigate();
 
-      const notifySuccess = (message) => toast.success(message) 
-      const notifyError = (message) => toast.error(message) 
+      const [isLoading, setIsLoading] = useState(true);
+
+      const fetchCartData = async () => {
+            try {
+                  const response = await axios.get('http://localhost:3000/owners/isAdmin', { withCredentials: true });
+
+                  if (!response.data.success) navigate('/');
+                  setIsLoading(false);
+            } catch (error) {
+                  console.log(error.response.data.message)
+                  navigate('/');
+            }
+      }
+
+      useEffect(() => {
+
+            fetchCartData();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
+
+      const notifySuccess = (message) => toast.success(message)
+      const notifyError = (message) => toast.error(message)
 
       const registerSchema = z.object({
             productName: z.string().min(1, 'Name is required'),
@@ -48,8 +70,12 @@ const CreateProduct = () => {
                   notifySuccess(response.data.message);
 
             } catch (error) {
-                notifyError(error.response.data.message || error.message);
+                  notifyError(error.response.data.message || error.message);
             }
+      }
+
+      if (isLoading) {
+            return <Loader />
       }
 
       return (
@@ -81,33 +107,33 @@ const CreateProduct = () => {
                                                 <div className="grid grid-cols-2 gap-4">
 
                                                       <div className='flex flex-col'>
-                                                      <input {...register('productName')} type="text" placeholder="Product Name"
-                                                            className="border p-2 rounded w-full" />
-                                                      {
-                                                            errors.productName && (
-                                                                  <p className='text-orange-600'>{errors.productName.message}</p>
-                                                            )
-                                                      }
+                                                            <input {...register('productName')} type="text" placeholder="Product Name"
+                                                                  className="border p-2 rounded w-full" />
+                                                            {
+                                                                  errors.productName && (
+                                                                        <p className='text-orange-600'>{errors.productName.message}</p>
+                                                                  )
+                                                            }
                                                       </div>
                                                       <div className='flex flex-col'>
 
-                                                      <input {...register('price')} type="text" placeholder="Product Price"
-                                                            className="border p-2 rounded w-full" />
-                                                      {
-                                                            errors.price && (
-                                                                  <p className='text-orange-600'>{errors.price.message}</p>
-                                                            )
-                                                      }
+                                                            <input {...register('price')} type="text" placeholder="Product Price"
+                                                                  className="border p-2 rounded w-full" />
+                                                            {
+                                                                  errors.price && (
+                                                                        <p className='text-orange-600'>{errors.price.message}</p>
+                                                                  )
+                                                            }
                                                       </div>
                                                       <div className='flex flex-col'>
 
-                                                      <input {...register('discount')} type="text" placeholder="Discount Price"
-                                                            className="border p-2 rounded w-full" />
-                                                      {
-                                                            errors.discount && (
-                                                                  <p className='text-orange-600'>{errors.discount.message}</p>
-                                                            )
-                                                      }
+                                                            <input {...register('discount')} type="text" placeholder="Discount Price"
+                                                                  className="border p-2 rounded w-full" />
+                                                            {
+                                                                  errors.discount && (
+                                                                        <p className='text-orange-600'>{errors.discount.message}</p>
+                                                                  )
+                                                            }
                                                       </div>
                                                 </div>
                                           </div>

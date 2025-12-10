@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
 import { CiCirclePlus } from "react-icons/ci";
 import { BACKEND_URL } from '../config/env.js';
+import ShopCardComponent from '../components/shopCardComponent.jsx';
 
 
 const Shop = () => {
@@ -87,29 +88,8 @@ const Shop = () => {
                                           products.map((product) => {
                                                 return (
                                                       <Link key={product._id} to={`/productInfo/${product._id}`}>
-                                                            <div  className="w-60">
-                                                                  <div className={`w-full h-52 flex items-center justify-center bg-[#F4DDD2]`}>
-                                                                        <img className="h-full w-full object-cover" src={product.image.imageUrl}
-                                                                              alt='' />
-                                                                  </div>
-                                                                  <div
-                                                                        className={`flex justify-between bg-[#DEBEAE] items-center px-4 py-4 text-[#774f3d]`}>
-                                                                        <div>
-                                                                              <h3>
-                                                                                    {product.productName}
-                                                                              </h3>
-                                                                              <h4>₹  {product.price}</h4>
-
-                                                                        </div>
-                                                                        <button onClick={(e) => {
-                                                                              e.preventDefault();
-                                                                              e.stopPropagation();
-                                                                              addToCart(product._id)
-                                                                        }} className="w-7 h-7 flex items-center justify-center rounded-full bg-white">
-                                                                              <CiCirclePlus className='w-7 h-7 cursor-pointer' />
-                                                                        </button>
-                                                                  </div>
-                                                            </div>
+                                                            <ShopCardComponent productName = {product.productName} price = {product.price} id = {product._id} imageUrl={product.image.imageUrl} addToCart ={addToCart}/>
+                                                            
                                                       </Link>
                                                 )
                                           })

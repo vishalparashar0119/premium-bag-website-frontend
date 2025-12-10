@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader";
 import Navbar from "../components/navbar";
+import { BACKEND_URL } from "../config/env.js";
 
 
 const MyAccount = () => {
@@ -15,7 +16,7 @@ const MyAccount = () => {
 
       async function fetchUserData() {
             try {
-                  const response = await axios.get('http://localhost:3000/users/myAccount', { withCredentials: true });
+                  const response = await axios.get(`${BACKEND_URL}/users/myAccount`, { withCredentials: true });
 
                   if (!response.data.success) navigate('/')
 

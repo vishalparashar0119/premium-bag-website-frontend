@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { FaPlus, FaMinus } from "react-icons/fa6";
+import { BACKEND_URL } from "../config/env.js";
 
 
 
@@ -17,7 +18,7 @@ const Cart = () => {
 
       const fetchCartData = async () => {
             try {
-                  const response = await axios.get('http://localhost:3000/users/cart', { withCredentials: true });
+                  const response = await axios.get(`${BACKEND_URL}/users/cart`, { withCredentials: true });
 
                   if (!response.data.success) navigate('/');
 
@@ -38,7 +39,7 @@ const Cart = () => {
 
       const removeToCart = async (id) => {
             try {
-                  const response = await axios.post(`http://localhost:3000/users/removeToCart/${id}`, {}, { withCredentials: true });
+                  const response = await axios.post(`${BACKEND_URL}/users/removeToCart/${id}`, {}, { withCredentials: true });
                   toast.success(response.data.message);
                   setCartData(response.data.cartData);
             } catch (error) {
@@ -50,7 +51,7 @@ const Cart = () => {
 
             try {
                   
-                        const response = await axios.put('http://localhost:3000/users/updateQuantity', { id, action }, { withCredentials: true });
+                        const response = await axios.put(`${BACKEND_URL}/users/updateQuantity`, { id, action }, { withCredentials: true });
                         setCartData(response.data.updatedCart.cart)
                         console.log(response.data.message);
                   

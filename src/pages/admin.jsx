@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
 import { MdDelete } from 'react-icons/md';
+import { BACKEND_URL } from '../config/env.js';
 
 const Admin = () => {
 
@@ -14,7 +15,7 @@ const Admin = () => {
 
         try {
 
-            const response = await axios.get('http://localhost:3000/owners', {
+            const response = await axios.get(`${BACKEND_URL}/owners`, {
                 withCredentials: true
             });
 

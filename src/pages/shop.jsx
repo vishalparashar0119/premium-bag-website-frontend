@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
 import { CiCirclePlus } from "react-icons/ci";
+import { BACKEND_URL } from '../config/env.js';
 
 
 const Shop = () => {
@@ -15,7 +16,7 @@ const Shop = () => {
 
             try {
 
-                  const response = await axios.get('http://localhost:3000/shop', {
+                  const response = await axios.get(`${BACKEND_URL}/shop`, {
                         withCredentials: true
                   });
 
@@ -35,7 +36,7 @@ const Shop = () => {
             console.log(productId);
 
             try {
-                  const response = await axios.post(`http://localhost:3000/users/addToCart/${productId}`, {}, {
+                  const response = await axios.post(`${BACKEND_URL}/users/addToCart/${productId}`, {}, {
                         withCredentials: true
                   })
                   console.log(response.data.message);

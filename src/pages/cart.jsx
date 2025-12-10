@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { BACKEND_URL } from "../config/env.js";
+import CartCardComponent from "../components/cartCardComponent.jsx";
 
 
 
@@ -50,11 +51,11 @@ const Cart = () => {
       const updateQuantity = async (id, action) => {
 
             try {
-                  
-                        const response = await axios.put(`${BACKEND_URL}/users/updateQuantity`, { id, action }, { withCredentials: true });
-                        setCartData(response.data.updatedCart.cart)
-                        console.log(response.data.message);
-                  
+
+                  const response = await axios.put(`${BACKEND_URL}/users/updateQuantity`, { id, action }, { withCredentials: true });
+                  setCartData(response.data.updatedCart.cart)
+                  console.log(response.data.message);
+
             } catch (error) {
                   console.log(error.message)
             }
@@ -76,58 +77,25 @@ const Cart = () => {
                               <h2 className="text-2xl font-semibold mb-4">Shopping Cart</h2>
 
                               {cartData.map((item, index) => (
-                                    <div key={index}>
+                                    
+                                          <div key={item.products._id}>
+                                                <CartCardComponent
+                                                      imageUrl={item.products.image.imageUrl}
+                                                      productName={item.products.productName}
+                                                      quantity={item.quantity}
+                                                      id={item.products._id}
+                                                      updateQuantity={updateQuantity}
+                                                      removeToCart={removeToCart}
+                                                      price={item.products.price} />
 
-                                          {/* ITEM ROW */}
-                                          <div className="flex py-6 gap-6">
 
-                                                {/* IMAGE */}
-                                                <div className="w-40 h-40 bg-yellow-500 rounded overflow-hidden">
-                                                      <img
-                                                            src={item.products.image.imageUrl}
-                                                            className="w-full h-full object-cover"
-                                                      />
-                                                </div>
 
-                                                {/* DETAILS */}
-                                                <div className="flex-1">
-                                                      <h3 className="text-lg font-medium">{item.products.productName}</h3>
-                                                      <p className="text-sm text-gray-500">Colour: Black</p>
-                                                      <p className="text-green-600 text-sm mt-1">In stock</p>
-
-                                                      {/* QUANTITY + DELETE */}
-                                                      <div className="flex items-center gap-5 mt-5">
-
-                                                            {/* QTY BUTTONS LIKE AMAZON */}
-                                                            <div className="flex items-center gap-2 border rounded-full px-3 py-1">
-                                                                  {
-                                                                        item.quantity > 1 ? <button onClick={() => updateQuantity(item.products._id, 'decrease')} className="text-sm cursor-pointer"><FaMinus /></button>  : <button> </button>
-                                                                  }
-                                                                  
-                                                                  <span>{item.quantity}</span>
-                                                                  <button onClick={() => updateQuantity(item.products._id, 'increase')} className="text-sm cursor-pointer"><FaPlus /></button>
-                                                            </div>
-
-                                                            {/* DELETE */}
-                                                            <button onClick={() => {
-                                                                  removeToCart(item.products._id);
-                                                            }} className=" bg-red-500  hover:bg-red-600 text-white w-9 h-9 rounded-full flex justify-center items-center cursor-pointer">
-                                                                  <MdDelete className="w-6 h-6" />
-                                                            </button>
-                                                      </div>
-                                                </div>
-
-                                                {/* PRICE */}
-                                                <div className="w-32 flex justify-end">
-                                                      <h3 className="text-lg font-semibold">₹ {item.products.price}</h3>
-                                                </div>
+                                                {/* DIVIDER */}
+                                                {index !== cartData.length - 1 && (
+                                                      <div className="w-full h-px bg-gray-300"></div>
+                                                )}
                                           </div>
-
-                                          {/* DIVIDER */}
-                                          {index !== cartData.length - 1 && (
-                                                <div className="w-full h-px bg-gray-300"></div>
-                                          )}
-                                    </div>
+                        
                               ))}
 
                               {/* TOTAL VALUE AT THE BOTTOM */}

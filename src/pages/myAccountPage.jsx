@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader";
-import Navbar from "../components/navbar";
 import { BACKEND_URL } from "../config/env.js";
+import OrderHistoryCardComponent from "../components/orderHistoryCardComponent.jsx";
+import ProfileCardComponent from "../components/profileCardComponent.jsx";
 
 
 const MyAccount = () => {
@@ -50,44 +51,13 @@ const MyAccount = () => {
                         <div className="w-[65%] flex flex-col gap-8 mt-10">
 
                               {/* PROFILE CARD */}
-                              <div className="bg-white shadow rounded-md p-6">
-                                    <h2 className="text-2xl font-semibold mb-4">My Account</h2>
-
-                                    <div className="flex flex-col gap-4">
-                                          <div className="flex justify-between">
-                                                <span className="text-gray-500">Full Name</span>
-                                                <span className="font-medium">{userData.fullName}</span>
-                                          </div>
-
-                                          <div className="flex justify-between">
-                                                <span className="text-gray-500">Email</span>
-                                                <span className="font-medium">{userData.email}</span>
-                                          </div>
-
-                                          <div className="flex justify-between">
-                                                <span className="text-gray-500">Phone No</span>
-                                                <span className="font-medium">{userData.phoneNo}</span>
-                                          </div>
-
-                                          <div className="flex justify-between">
-                                                <span className="text-gray-500">Address</span>
-                                                <span className="font-medium">{userData.address}</span>
-                                          </div>
-
-                                          {userData.isAdmin && (
-                                                <div className="flex justify-between">
-                                                      <span className="text-gray-500">Admin Status</span>
-                                                      <span className="px-2 py-1 bg-yellow-400 rounded text-sm font-medium">
-                                                            Admin
-                                                      </span>
-                                                </div>
-                                          )}
-                                    </div>
-
-                                    <button className="mt-6 bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded font-medium text-black">
-                                          Edit Profile
-                                    </button>
-                              </div>
+                              <ProfileCardComponent
+                                    fullName={userData.fullName}
+                                    email={userData.email}
+                                    phoneNo={userData.phoneNo}
+                                    address={userData.address}
+                                    isAdmin={userData.isAdmin} />
+                              
 
                               {/* ORDER HISTORY */}
                               <div className="bg-white shadow rounded-md p-6">
@@ -97,59 +67,16 @@ const MyAccount = () => {
                                           <p className="text-gray-500">No orders placed yet.</p>
                                     ) : (
                                           <div className="flex flex-col gap-6">
-                                                {userData.orderHistory.map((order, index) => (
-                                                      <div
-                                                            key={index}
-                                                            className="flex flex-col bg-white  rounded-xl p-4 shadow-sm"
-                                                      >
-                                                            {/* TOP SECTION */}
-                                                            <div className="flex gap-4">
-                                                                  {/* PRODUCT IMAGE */}
-                                                                  <img
-                                                                        src={order.image.imageUrl}
-                                                                        alt="product"
-                                                                        className="w-24 h-24 rounded-lg object-cover"
-                                                                  />
+                                                {userData.orderHistory.map((order) => (
 
-                                                                  {/* DETAILS */}
-                                                                  <div className="flex-1 flex flex-col justify-between">
-                                                                        <div>
-                                                                              <p className="font-semibold text-lg">
-                                                                                    Order ID: {order._id}
-                                                                              </p>
-                                                                              <p className="font-semibold text-lg">
-                                                                                    Product Name: {order.productName}
-                                                                              </p>
-                                                                              <p className="text-gray-500 text-sm mt-1">
-                                                                                    Date: 19/12/99
-                                                                              </p>
-                                                                        </div>
+                                                      <OrderHistoryCardComponent
+                                                            key={order._id}
+                                                            imageUrl={order.image.imageUrl}
+                                                            id={order._id}
+                                                            productName={order.productName}
+                                                            price={order.price} />
 
-                                                                        {/* PRODUCT LIST */}
-                                                                        <div className="mt-2">
 
-                                                                              <div className="text-sm text-gray-700">
-                                                                                    {/* {item.name} — Qty: {item.qty} — ₹{item.price} */}
-                                                                              </div>
-
-                                                                        </div>
-                                                                  </div>
-
-                                                                  {/* TOTAL */}
-                                                                  <div>
-                                                                        <p className="font-bold text-green-700 text-lg whitespace-nowrap">
-                                                                              ₹ {order.price}
-                                                                        </p>
-                                                                  </div>
-                                                            </div>
-
-                                                            {/* BUTTON */}
-                                                            <div className="flex justify-end mt-4">
-                                                                  <button className="bg-yellow-400 hover:bg-yellow-500 px-5 py-2 rounded-md font-medium text-black">
-                                                                        Order Again
-                                                                  </button>
-                                                            </div>
-                                                      </div>
                                                 ))}
                                           </div>
                                     )}

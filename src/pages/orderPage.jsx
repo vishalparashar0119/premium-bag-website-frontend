@@ -1,6 +1,50 @@
-import React from "react";
+import axios from "axios";
+import { BACKEND_URL, RAZORPAY_KEY } from "../config/env.js";
+
 
 const Order = () => {
+
+  const handlePayment = async (amount) => {
+    try {
+      amount = 2000;
+      const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: amount }, {
+        withCredentials: true
+      });
+
+      const options = {
+        key: RAZORPAY_KEY,
+        amount: order.data.order.amount,
+        currency: order.data.order.currency,
+        order_id: order.data.order.id,
+        handler: function (response) {
+          verifyPayment(response);
+        }
+
+
+      }
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+      console.log(order)
+    } catch (error) {
+      console.log(error.messsage)
+    }
+  }
+
+  const verifyPayment = async (paymentDetails) => {
+
+    console.log("verify payment method ::", paymentDetails);
+    try {
+      const order = await axios.post(`${BACKEND_URL}/users/razorPay/verifyPayment`, { paymentDetails }, {
+        withCredentials: true
+      });
+
+      console.log(order.data.message)
+    } catch (error) {
+      console.log(error.messsage)
+    }
+  }
+
   return (
     <>
       <div className="w-full min-h-screen bg-gray-100 px-10 py-20 flex gap-8">
@@ -23,7 +67,7 @@ const Order = () => {
                   Accusamus vel impedit sapiente atque reprehenderit aliquam quo.
                 </p>
               </div>
-                                      {/*
+              {/*
               <button className="text-blue-600 hover:underline text-sm">
                 Change
               </button> */}
@@ -36,12 +80,12 @@ const Order = () => {
 
             <div className="flex flex-col gap-4">
               <label className="flex items-center gap-3 cursor-pointer">
-                <input type="radio" name="payment" />
+                <input type="radio" name="payment" value="Cash on Delivery" />
                 <span>Cash on Delivery</span>
               </label>
 
               <label className="flex items-center gap-3 cursor-pointer">
-                <input type="radio" name="payment" />
+                <input type="radio" name="payment" value="" />
                 <span>UPI / Debit / Credit Card</span>
               </label>
             </div>
@@ -116,7 +160,7 @@ const Order = () => {
             <span>₹ 2498</span>
           </div>
 
-          <button className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
+          <button onClick={handlePayment} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
             Place Order
           </button>
         </div>

@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Bounce, toast, ToastContainer } from 'react-toastify'
 import Loader from '../components/loader'
+import { BACKEND_URL } from '../config/env.js'
 
 
 
@@ -17,7 +18,7 @@ const CreateProduct = () => {
 
       const fetchCartData = async () => {
             try {
-                  const response = await axios.get('http://localhost:3000/owners/isAdmin', { withCredentials: true });
+                  const response = await axios.get(`${BACKEND_URL}/owners/isAdmin`, { withCredentials: true });
 
                   if (!response.data.success) navigate('/');
                   setIsLoading(false);
@@ -60,7 +61,7 @@ const CreateProduct = () => {
             formData.append('textColor', data.textColor);
 
             try {
-                  const response = await axios.post('http://localhost:3000/owners/createProduct', formData, {
+                  const response = await axios.post(`${BACKEND_URL}/owners/createProduct`, formData, {
                         headers: {
                               'Content-Type': 'multipart/form-data',
                         },

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import z from "zod";
+import { BACKEND_URL } from "../config/env.js";
 
 const PopUpComponent = (props) => {
 
@@ -52,7 +53,7 @@ const PopUpComponent = (props) => {
   const onSubmit = async (data) => {
 
     try {
-      const res = await axios.post('http://localhost:3000/users/register', { otp: data.otp }, {
+      const res = await axios.post(`${BACKEND_URL}/users/register`, { otp: data.otp }, {
         withCredentials: true
       })
 

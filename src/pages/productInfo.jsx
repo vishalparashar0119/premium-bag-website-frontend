@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/loader";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import { BACKEND_URL } from "../config/env.js";
 
 const ProductInfo = () => {
 
@@ -18,7 +19,7 @@ const ProductInfo = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/products/product/${id}`, { withCredentials: true });
+      const response = await axios.get(`${BACKEND_URL}/products/product/${id}`, { withCredentials: true });
 
       if (!response.data.success) navigate('/');
 
@@ -40,7 +41,7 @@ const ProductInfo = () => {
   const addToCart = async () => {
 
     try {
-      const response = await axios.post(`http://localhost:3000/users/addToCart/${id}`, {}, {
+      const response = await axios.post(`${BACKEND_URL}/users/addToCart/${id}`, {}, {
         withCredentials: true
       });
       setInCart(false);
@@ -53,7 +54,7 @@ const ProductInfo = () => {
 
   const removeToCart = async () => {
     try {
-      const response = await axios.post(`http://localhost:3000/users/removeToCart/${id}`, {}, { withCredentials: true });
+      const response = await axios.post(`${BACKEND_URL}/users/removeToCart/${id}`, {}, { withCredentials: true });
       setInCart(true)
       toast.success(response.data.message);
     } catch (error) {

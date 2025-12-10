@@ -3,6 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import z from "zod";
+import { BACKEND_URL } from "../config/env.js";
 
 const CreateComponent = (propes) => {
 
@@ -25,7 +26,7 @@ const CreateComponent = (propes) => {
   const onSubmit = async (data) => {
 
     try {
-      const res = await axios.post('http://localhost:3000/users/verify', { fullName: data.fullName, email: data.email, password: data.password }, {
+      const res = await axios.post(`${BACKEND_URL}/users/verify`, { fullName: data.fullName, email: data.email, password: data.password }, {
         withCredentials: true
       });
 

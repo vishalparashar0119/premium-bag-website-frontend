@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import z from "zod";
+import { BACKEND_URL } from "../config/env.js";
 
 const LoginComponent = () => {
 
@@ -31,7 +32,7 @@ const LoginComponent = () => {
   const onLoginSubmit = async (data) => {
 
     try {
-      const response = await axios.post('http://localhost:3000/users/login', { email: data.email, password: data.password }, {
+      const response = await axios.post(`${BACKEND_URL}/users/login`, { email: data.email, password: data.password }, {
         withCredentials: true
       })
 

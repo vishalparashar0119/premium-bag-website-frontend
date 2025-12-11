@@ -1,12 +1,45 @@
 import axios from "axios";
 import { BACKEND_URL, RAZORPAY_KEY } from "../config/env.js";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Loader from '../components/loader.jsx';
 
 
 const Order = () => {
 
+  const navigate = useNavigate()
+  const [product , setProduct] = useState();
+  const [user , setUser] = useState();
+  const [loader , setLoader] = useState(true);
+  const {id} = useParams()
+
+  const fetchProductUser = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/users/order/${id}` , {withCredentials : true});
+
+      if(!response.data.success) navigate('/');
+
+      setProduct(response.data.product);
+      console.log(response.data)
+      console.log(product);
+      setUser(response.data.user);
+      console.log(user);
+      setLoader(false);
+       
+    } catch (error) {
+      console.log(error.message);
+      navigate("/");
+
+    }
+  }
+
+  useEffect(()=>{
+    fetchProductUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   const handlePayment = async (amount) => {
     try {
-      amount = 2000;
       const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: amount }, {
         withCredentials: true
       });
@@ -45,6 +78,10 @@ const Order = () => {
     }
   }
 
+  if(loader){
+    return <Loader/>
+  }
+
   return (
     <>
       <div className="w-full min-h-screen bg-gray-100 px-10 py-20 flex gap-8">
@@ -57,14 +94,13 @@ const Order = () => {
           {/* ADDRESS SECTION */}
           <div className=" border-b-2 border-gray-300 p-5 mb-6">
             <h3 className="text-lg font-medium mb-3">
-              Delivering to Vishal Parashar
+              Delivering to {user.fullName}
             </h3>
 
             <div className="flex justify-between items-start">
               <div className="text-gray-600 leading-relaxed">
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus vel impedit sapiente atque reprehenderit aliquam quo.
+                  {user?.address}
                 </p>
               </div>
               {/*
@@ -102,7 +138,7 @@ const Order = () => {
               {/* IMAGE */}
               <div className="w-32 h-32 bg-gray-200 rounded overflow-hidden">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBks98xcOTXXIYF3z87erbFfZ2RE4mWK5myQ&s"
+                  src={product.image.imageUrl}
                   alt="product"
                   className="w-full h-full object-cover"
                 />
@@ -111,7 +147,7 @@ const Order = () => {
               {/* DETAILS */}
               <div className="flex-1">
                 <h4 className="font-medium text-lg">
-                  Premium Leather Backpack
+                  {product.productName}
                 </h4>
 
                 <p className="text-green-600 text-sm mt-1">
@@ -120,7 +156,7 @@ const Order = () => {
 
                 <div className="flex items-center gap-3 mt-3">
                   <span className="text-lg font-semibold">
-                    ₹ 1,499
+                    ₹ {product.price}
                   </span>
 
                   <span className="text-sm line-through text-gray-500">
@@ -144,12 +180,7 @@ const Order = () => {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Product 1</span>
-              <span>₹ 999</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Product 2</span>
-              <span>₹ 1499</span>
+              <span>₹ {product.price}</span>
             </div>
           </div>
 
@@ -157,10 +188,12 @@ const Order = () => {
 
           <div className="flex justify-between text-lg font-semibold">
             <span>Total</span>
-            <span>₹ 2498</span>
+            <span>₹ {product.price}</span>
           </div>
 
-          <button onClick={handlePayment} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
+          <button onClick={()=>{
+            handlePayment(product.price)
+            }} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
             Place Order
           </button>
         </div>

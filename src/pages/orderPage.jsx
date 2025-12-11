@@ -3,21 +3,30 @@ import { BACKEND_URL, RAZORPAY_KEY } from "../config/env.js";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from '../components/loader.jsx';
+import z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 
 const Order = () => {
 
   const navigate = useNavigate()
-  const [product , setProduct] = useState();
-  const [user , setUser] = useState();
-  const [loader , setLoader] = useState(true);
-  const {id} = useParams()
+  const [product, setProduct] = useState();
+  const [user, setUser] = useState();
+  const [loader, setLoader] = useState(true);
+  const { id } = useParams()
+
+  const orderSchema = z.object({
+    choice: z.string().min(1, 'select at least one method')
+  });
+
+  const { register, handleSubmit, formState: {isSubmitting } } = useForm({ resolver: zodResolver(orderSchema) })
 
   const fetchProductUser = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/users/order/${id}` , {withCredentials : true});
+      const response = await axios.get(`${BACKEND_URL}/users/order/${id}`, { withCredentials: true });
 
-      if(!response.data.success) navigate('/');
+      if (!response.data.success) navigate('/');
 
       setProduct(response.data.product);
       console.log(response.data)
@@ -25,7 +34,7 @@ const Order = () => {
       setUser(response.data.user);
       console.log(user);
       setLoader(false);
-       
+
     } catch (error) {
       console.log(error.message);
       navigate("/");
@@ -33,32 +42,39 @@ const Order = () => {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchProductUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const handlePayment = async (amount) => {
+  const handlePayment = async (data) => {
     try {
-      const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: amount }, {
-        withCredentials: true
-      });
 
-      const options = {
-        key: RAZORPAY_KEY,
-        amount: order.data.order.amount,
-        currency: order.data.order.currency,
-        order_id: order.data.order.id,
-        handler: function (response) {
-          verifyPayment(response);
+      if (data.choice === 'online') {
+
+        const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: product.price }, {
+          withCredentials: true
+        });
+
+        const options = {
+          key: RAZORPAY_KEY,
+          amount: order.data.order.amount,
+          currency: order.data.order.currency,
+          order_id: order.data.order.id,
+          handler: function (response) {
+            verifyPayment(response);
+          }
+
+
         }
 
-
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+        console.log(order)
+        console.log(data)
+      } else {
+        console.log(data.choice)
       }
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-      console.log(order)
     } catch (error) {
       console.log(error.messsage)
     }
@@ -78,8 +94,8 @@ const Order = () => {
     }
   }
 
-  if(loader){
-    return <Loader/>
+  if (loader) {
+    return <Loader />
   }
 
   return (
@@ -115,14 +131,14 @@ const Order = () => {
             <h3 className="text-lg font-medium mb-4">Payment Method</h3>
 
             <div className="flex flex-col gap-4">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input type="radio" name="payment" value="Cash on Delivery" />
-                <span>Cash on Delivery</span>
-              </label>
 
               <label className="flex items-center gap-3 cursor-pointer">
-                <input type="radio" name="payment" value="" />
+                <input defaultChecked type="radio" value="online" {...register('choice')} />
                 <span>UPI / Debit / Credit Card</span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input type="radio" {...register('choice')} value="cod" />
+                <span>Cash on Delivery</span>
               </label>
             </div>
           </div>
@@ -191,10 +207,8 @@ const Order = () => {
             <span>₹ {product.price}</span>
           </div>
 
-          <button onClick={()=>{
-            handlePayment(product.price)
-            }} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
-            Place Order
+          <button disabled={isSubmitting} type="submit" onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
+            {isSubmitting ? 'Placing order...':'Place Order'} 
           </button>
         </div>
       </div>

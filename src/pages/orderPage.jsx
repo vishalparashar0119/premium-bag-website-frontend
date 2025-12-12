@@ -6,6 +6,7 @@ import Loader from '../components/loader.jsx';
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 
 
 const Order = () => {
@@ -20,7 +21,7 @@ const Order = () => {
     choice: z.string().min(1, 'select at least one method')
   });
 
-  const { register, handleSubmit, formState: {isSubmitting } } = useForm({ resolver: zodResolver(orderSchema) })
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm({ resolver: zodResolver(orderSchema) })
 
   const fetchProductUser = async () => {
     try {
@@ -50,7 +51,7 @@ const Order = () => {
   const handlePayment = async (data) => {
     try {
 
-      if (data.choice === 'online') {
+      if (data.choice === 'Online') {
 
         const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: product.price }, {
           withCredentials: true
@@ -73,7 +74,7 @@ const Order = () => {
         console.log(order)
         console.log(data)
       } else {
-        console.log(data.choice)
+        orderProduct(product.price, user._id, null, product._id, user.address, 1, 'COD');
       }
     } catch (error) {
       console.log(error.messsage)
@@ -88,9 +89,29 @@ const Order = () => {
         withCredentials: true
       });
 
-      console.log(order.data.message)
+      console.log(order.data.success)
+
+      if (order.data.success){
+        orderProduct(product.price, user._id, order.data.razorpay_payment_id, product._id, user.address, 1, 'Online');
+      }
     } catch (error) {
       console.log(error.messsage)
+    }
+  }
+
+  const orderProduct = async (amount, userId, paymentId = null, productId, shippingAddress, quantity, modeOfPayment) => {
+    try {
+      console.log(amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment);
+
+      const newOrder  = await axios.post(`${BACKEND_URL}/products/product/order`,{
+        amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
+      },{withCredentials:true});
+
+      toast.success(newOrder.data.message);
+      console.log(newOrder.data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error.message)
     }
   }
 
@@ -133,11 +154,11 @@ const Order = () => {
             <div className="flex flex-col gap-4">
 
               <label className="flex items-center gap-3 cursor-pointer">
-                <input defaultChecked type="radio" value="online" {...register('choice')} />
+                <input defaultChecked type="radio" value="Online" {...register('choice')} />
                 <span>UPI / Debit / Credit Card</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer">
-                <input type="radio" {...register('choice')} value="cod" />
+                <input type="radio" {...register('choice')} value="COD" />
                 <span>Cash on Delivery</span>
               </label>
             </div>
@@ -207,8 +228,8 @@ const Order = () => {
             <span>₹ {product.price}</span>
           </div>
 
-          <button disabled={isSubmitting} type="submit" onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
-            {isSubmitting ? 'Placing order...':'Place Order'} 
+          <button disabled={isSubmitting} onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
+            {isSubmitting ? 'Placing order...' : 'Place Order'}
           </button>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const OrderHistoryCardComponent = (props) => {
-      const {imageUrl , id ,productName , price} = props
+      const {imageUrl , productId ,productName , price , orderId} = props
       return (
             <div
                   className="flex flex-col bg-white  rounded-xl p-4 shadow-sm"
@@ -19,7 +20,7 @@ const OrderHistoryCardComponent = (props) => {
                         <div className="flex-1 flex flex-col justify-between">
                               <div>
                                     <p className="font-semibold text-lg">
-                                          Order ID: {id}
+                                          Order ID: {orderId}
                                     </p>
                                     <p className="font-semibold text-lg">
                                           Product Name: {productName}
@@ -49,9 +50,9 @@ const OrderHistoryCardComponent = (props) => {
 
                   {/* BUTTON */}
                   <div className="flex justify-end mt-4">
-                        <button className="bg-yellow-400 hover:bg-yellow-500 px-5 py-2 rounded-md font-medium text-black">
+                        <Link to={`/order/${productId}`} className="bg-yellow-400 hover:bg-yellow-500 px-5 py-2 rounded-md font-medium text-black">
                               Order Again
-                        </button>
+                        </Link>
                   </div>
             </div>
       )

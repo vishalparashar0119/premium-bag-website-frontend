@@ -108,7 +108,7 @@ const ProductInfo = () => {
 
             {/* STOCK STATUS */}
             <p className="text-sm mt-2">
-              {product.stock > 0 ? (
+              {product.quantity > 0 ? (
                 <span className="text-green-600 font-medium">In stock</span>
               ) : (
                 <span className="text-red-600 font-medium">Out of stock</span>
@@ -119,7 +119,7 @@ const ProductInfo = () => {
             <div className="mt-6">
               <h3 className="text-lg font-semibold mb-1">About this item</h3>
               <p className="text-gray-600 leading-relaxed">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus velit ipsum non libero explicabo nisi mollitia quo, quis voluptatum necessitatibus assumenda! Maiores inventore modi soluta!
+                {product.description}!
               </p>
             </div>
 
@@ -134,11 +134,16 @@ const ProductInfo = () => {
                     Remove to Cart
                   </button>
               }
-              
-              <Link key={product._id} to={`/order/${id}`}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded font-medium shadow">
-                Buy Now
-              </Link>
+              {
+                product.quantity > 0 ? <Link key={product._id} to={`/order/${id}`}
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded font-medium shadow">
+                  Buy Now
+                </Link> : <button key={product._id} to={`/order/${id}`}
+                  className="bg-gray-300  text-white px-8 py-3 rounded font-medium shadow">
+                  Buy Now
+                </button>
+              }
+
             </div>
 
           </div>

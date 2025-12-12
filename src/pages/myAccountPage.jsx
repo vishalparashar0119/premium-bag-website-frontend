@@ -71,10 +71,11 @@ const MyAccount = () => {
 
                                                       <OrderHistoryCardComponent
                                                             key={order._id}
-                                                            imageUrl={order.image.imageUrl}
-                                                            id={order._id}
-                                                            productName={order.productName}
-                                                            price={order.price} />
+                                                            imageUrl={order.productId.image.imageUrl}
+                                                            productId={order.productId._id}
+                                                            orderId={order._id}
+                                                            productName={order.productId.productName}
+                                                            price={order.productId.price} />
 
 
                                                 ))}

@@ -6,6 +6,8 @@ import Loader from "../components/loader";
 import { BACKEND_URL } from "../config/env.js";
 import OrderHistoryCardComponent from "../components/orderHistoryCardComponent.jsx";
 import ProfileCardComponent from "../components/profileCardComponent.jsx";
+import EditProfile from "../components/editUserComponent.jsx";
+import { toast } from "react-toastify";
 
 
 const MyAccount = () => {
@@ -14,20 +16,18 @@ const MyAccount = () => {
       const navigate = useNavigate();
       const [userData, setUserData] = useState();
       const [loading, setLoading] = useState(true);
+      const [toggle, setToggle] = useState(false);
 
       async function fetchUserData() {
             try {
                   const response = await axios.get(`${BACKEND_URL}/users/myAccount`, { withCredentials: true });
 
-                  if (!response.data.success) navigate('/')
-
-                  console.log(response.data.user);
-
+                  if (!response.data.success) navigate('/');
                   setUserData(response.data.user)
                   setLoading(false);
 
             } catch (error) {
-                  console.log(error.response.data.message)
+                  toast.error(error.response.data.message)
                   navigate('/')
             }
       }
@@ -42,7 +42,7 @@ const MyAccount = () => {
       }
 
       return (
-            <>
+            <div>
 
 
                   <div className="w-full min-h-screen bg-gray-100 px-10 py-10 flex gap-10 ">
@@ -56,8 +56,9 @@ const MyAccount = () => {
                                     email={userData.email}
                                     phoneNo={userData.phoneNo}
                                     address={userData.address}
-                                    isAdmin={userData.isAdmin} />
-                              
+                                    isAdmin={userData.isAdmin}
+                                    setToggle={setToggle} />
+
 
                               {/* ORDER HISTORY */}
                               <div className="bg-white shadow rounded-md p-6">
@@ -99,7 +100,13 @@ const MyAccount = () => {
                               </div>
                         </div>
                   </div>
-            </>
+                  {toggle && <EditProfile setToggle={setToggle}
+                        fullName={userData.fullName}
+                        email={userData.email}
+                        phoneNo={userData.phoneNo}
+                        address={userData.address}
+                        setUserData={setUserData} />}
+            </div>
       );
 };
 

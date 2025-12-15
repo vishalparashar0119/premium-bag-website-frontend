@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Bounce, toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import Loader from '../components/loader'
 import { BACKEND_URL } from '../config/env.js'
 
@@ -175,19 +175,6 @@ const CreateProduct = () => {
                               </main>
                         </div>
                   </div>
-                  <ToastContainer
-                        position="top-center"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick={false}
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                        transition={Bounce}
-                  />
 
             </>
       )

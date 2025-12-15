@@ -71,7 +71,9 @@ const Admin = () => {
                                             <div className="flex justify-between items-center px-4 py-4">
                                                 <div>
                                                     <h3>{product.productName}</h3>
-                                                    <h4>₹ {product.price}</h4>  
+                                                    <h4>₹ {product.price}</h4>
+                                                    <h6 className='text-white text-sm'>QTY:{product.quantity}</h6>  
+                                                    {product.quantity >= 0 ?<h6 className='text-white text-sm'>In stock</h6> : <h6 className='text-red-600 text-sm'>Out of stock</h6>}
                                                 </div>
                                                 <button onClick={(e)=>{
                                                     e.preventDefault();

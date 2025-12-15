@@ -91,7 +91,7 @@ const Order = () => {
 
       console.log(order.data.success)
 
-      if (order.data.success){
+      if (order.data.success) {
         orderProduct(product.price, user._id, order.data.razorpay_payment_id, product._id, user.address, 1, 'Online');
       }
     } catch (error) {
@@ -103,14 +103,15 @@ const Order = () => {
     try {
       console.log(amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment);
 
-      const newOrder  = await axios.post(`${BACKEND_URL}/products/product/order`,{
+      const newOrder = await axios.post(`${BACKEND_URL}/products/product/order`, {
         amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
-      },{withCredentials:true});
+      }, { withCredentials: true });
 
       toast.success(newOrder.data.message);
       console.log(newOrder.data.message);
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log("Order error:", error);
+      toast.error(error.response?.data?.message || "Failed to place order");
       console.log(error.message)
     }
   }
@@ -186,10 +187,12 @@ const Order = () => {
                 <h4 className="font-medium text-lg">
                   {product.productName}
                 </h4>
-
-                <p className="text-green-600 text-sm mt-1">
-                  In Stock
-                </p>
+                {product.quantity > 0 ?
+                  <p className="text-green-600 text-sm mt-1">
+                    In Stock
+                  </p> : <p className="text-red-600 text-sm mt-1">
+                    Out Of Stock
+                  </p>}
 
                 <div className="flex items-center gap-3 mt-3">
                   <span className="text-lg font-semibold">
@@ -228,9 +231,11 @@ const Order = () => {
             <span>₹ {product.price}</span>
           </div>
 
-          <button disabled={isSubmitting} onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
+          {product.quantity > 0 ?<button disabled={isSubmitting} onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
             {isSubmitting ? 'Placing order...' : 'Place Order'}
-          </button>
+          </button> :<button  className="w-full mt-5 bg-gray-300  text-white font-medium py-2 rounded">
+            {isSubmitting ? 'Placing order...' : 'Place Order'}
+          </button>}
         </div>
       </div>
     </>

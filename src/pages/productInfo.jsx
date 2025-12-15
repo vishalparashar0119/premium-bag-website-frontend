@@ -3,7 +3,7 @@ import { MdStar, MdStarHalf, MdStarBorder } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/loader";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { BACKEND_URL } from "../config/env.js";
 
 const ProductInfo = () => {
@@ -151,19 +151,6 @@ const ProductInfo = () => {
 
 
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </>
   );
 };

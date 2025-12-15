@@ -38,7 +38,7 @@ const EditProfile = (props) => {
 
                   });
 
-                  console.log("ediit user data::", response.data);
+                  console.log("ediit user data::", response.data.message);
                   setUserData(response.data.user);
                   toast.success(response.data.message);
                   setToggle(false);
@@ -53,6 +53,8 @@ const EditProfile = (props) => {
             <div className="w-full h-screen fixed z-20 top-0 right-0 left-0  bg-black/20 px-10 py-10 flex justify-center">
                   <div className="w-full max-w-xl bg-white shadow rounded-md p-6">
                         <h2 className="text-2xl font-semibold mb-6">Edit Profile</h2>
+
+                        <form onSubmit={handleSubmit(onSubmit)}>
 
                         {/* FULL NAME */}
                         <div className="mb-4">
@@ -105,7 +107,7 @@ const EditProfile = (props) => {
 
                         {/* BUTTONS */}
                         <div className="flex gap-4">
-                              <button disabled={isSubmitting} onClick={handleSubmit(onSubmit)} className="bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded font-medium text-black">
+                              <button disabled={isSubmitting} type="submit" className="bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded font-medium text-black">
                                     {isSubmitting ? 'Saving...' : 'Save changes'}
                               </button>
 
@@ -116,6 +118,7 @@ const EditProfile = (props) => {
                                     Cancel
                               </button>
                         </div>
+                        </form>
                   </div>
             </div>
       );

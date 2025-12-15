@@ -40,10 +40,10 @@ const Shop = () => {
             try {
                   const response = await axios.post(`${BACKEND_URL}/users/addToCart/${productId}`, {}, {
                         withCredentials: true
-                  })
-                  console.log(response.data.message);
+                  });
+                  toast.success(response.data.message);
             } catch (error) {
-                  console.log(error.response.data.message);
+                  toast.error(error.response.data.message);
             }
       }
 

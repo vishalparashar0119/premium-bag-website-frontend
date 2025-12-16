@@ -34,31 +34,33 @@ const CreateProduct = () => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
 
-      const notifySuccess = (message) => toast.success(message)
-      const notifyError = (message) => toast.error(message)
 
       const registerSchema = z.object({
             productName: z.string().min(1, 'Name is required'),
             image: z.any(),
             price: z.string().min(1, 'Price is required'),
+            quantity: z.string().min(1, 'Quantity is required'),
             discount: z.string().optional(),
             backgroundColor: z.string().optional(),
             pannelColor: z.string().optional(),
             textColor: z.string().optional(),
+            description : z.string().min(1 ,'Please provide a brief description'),
       })
 
-      const { handleSubmit, formState: { errors, isSubmitting }, register, } = useForm({ resolver: zodResolver(registerSchema) });
+      const { handleSubmit, formState: { errors, isSubmitting }, register, reset} = useForm({ resolver: zodResolver(registerSchema) });
 
       const onSubmit = async (data) => {
             console.log(data);
             const formData = new FormData();
             formData.append('productName', data.productName);
             formData.append('price', data.price);
+            formData.append('quantity', data.quantity);
             formData.append('image', data.image[0]);
             formData.append('discount', data.discount);
             formData.append('backgroundColor', data.backgroundColor);
             formData.append('pannelColor', data.pannelColor);
             formData.append('textColor', data.textColor);
+            formData.append('description', data.description);
 
             try {
                   const response = await axios.post(`${BACKEND_URL}/owners/createProduct`, formData, {
@@ -68,11 +70,13 @@ const CreateProduct = () => {
                         withCredentials: true,
                   });
 
-                  notifySuccess(response.data.message);
+                  toast.success(response.data.message);
 
             } catch (error) {
-                  notifyError(error.response.data.message || error.message);
+                  toast.error(error.response.data.message || error.message);
             }
+
+            reset();
       }
 
       if (isLoading) {
@@ -126,13 +130,31 @@ const CreateProduct = () => {
                                                                   )
                                                             }
                                                       </div>
-                                                      <div className='flex flex-col'>
+                                                      <div className='flex flex-col gap-4'>
 
                                                             <input {...register('discount')} type="text" placeholder="Discount Price"
                                                                   className="border p-2 rounded w-full" />
                                                             {
                                                                   errors.discount && (
                                                                         <p className='text-orange-600'>{errors.discount.message}</p>
+                                                                  )
+                                                            }
+
+                                                            <textarea {...register('description')} type="text" placeholder="Product Description" rows={4}
+                                                                  className="border p-2 rounded w-full" ></textarea>
+                                                            {
+                                                                  errors.description && (
+                                                                        <p className='text-orange-600'>{errors.description.message}</p>
+                                                                  )
+                                                            }
+                                                      </div>
+                                                      <div className='flex flex-col'>
+
+                                                            <input {...register('quantity')} type="text" placeholder="Product Quantity"
+                                                                  className="border p-2 rounded w-full" />
+                                                            {
+                                                                  errors.quantity && (
+                                                                        <p className='text-orange-600'>{errors.quantity.message}</p>
                                                                   )
                                                             }
                                                       </div>

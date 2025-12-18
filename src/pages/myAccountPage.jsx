@@ -23,6 +23,7 @@ const MyAccount = () => {
                   const response = await axios.get(`${BACKEND_URL}/users/myAccount`, { withCredentials: true });
 
                   if (!response.data.success) navigate('/');
+                  console.log(response.data.user.orderHistory)
                   setUserData(response.data.user)
                   setLoading(false);
 
@@ -69,14 +70,14 @@ const MyAccount = () => {
                                     ) : (
                                           <div className="flex flex-col gap-6">
                                                 {userData.orderHistory.map((order) => (
-
+                                          
                                                       <OrderHistoryCardComponent
                                                             key={order._id}
-                                                            imageUrl={order.productId.image.imageUrl}
-                                                            productId={order.productId._id}
+                                                            imageUrl={order.productSnapShot[0].image.imageUrl}
+                                                            productId={order.productId}
                                                             orderId={order._id}
-                                                            productName={order.productId.productName}
-                                                            price={order.productId.price} />
+                                                            productName={order.productSnapShot[0].name}
+                                                            price={order.productSnapShot[0].priceWhenOrder} />
 
 
                                                 ))}

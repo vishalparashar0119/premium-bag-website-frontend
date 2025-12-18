@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const EditProfile = (props) => {
 
-      const { setToggle, fullName, address, phoneNo, email, setUserData } = props;
+      const { setToggle, fullName, address, phoneNo, email, setUserData  } = props;
 
       const updateUserSchema = z.object({
             fullName: z.string().min(1, 'User name at least one character long'),

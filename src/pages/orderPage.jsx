@@ -7,6 +7,7 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
+import EditProfile from "../components/editUserComponent.jsx";
 
 
 const Order = () => {
@@ -15,6 +16,7 @@ const Order = () => {
   const [product, setProduct] = useState();
   const [user, setUser] = useState();
   const [loader, setLoader] = useState(true);
+  const [toggle, setToggle] = useState(false);
   const { id } = useParams()
 
   const orderSchema = z.object({
@@ -101,14 +103,20 @@ const Order = () => {
 
   const orderProduct = async (amount, userId, paymentId = null, productId, shippingAddress, quantity, modeOfPayment) => {
     try {
-      console.log(amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment);
 
-      const newOrder = await axios.post(`${BACKEND_URL}/products/product/order`, {
-        amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
-      }, { withCredentials: true });
-
-      toast.success(newOrder.data.message);
-      console.log(newOrder.data.message);
+      if(!user.address){
+          setToggle(true);
+      }else{
+        
+        console.log(amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment);
+  
+        const newOrder = await axios.post(`${BACKEND_URL}/products/product/order`, {
+          amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
+        }, { withCredentials: true });
+  
+        toast.success(newOrder.data.message);
+        console.log(newOrder.data.message);
+      }
     } catch (error) {
       console.log("Order error:", error);
       toast.error(error.response?.data?.message || "Failed to place order");
@@ -238,6 +246,12 @@ const Order = () => {
           </button>}
         </div>
       </div>
+                  {toggle && <EditProfile setToggle={setToggle}
+                        fullName={user.fullName}
+                        email={user.email}
+                        phoneNo={user.phoneNo}
+                        address={user.address}
+                        setUserData={setUser} />}
     </>
   );
 };

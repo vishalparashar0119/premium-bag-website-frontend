@@ -10,6 +10,7 @@ import Navbar from './components/navbar.jsx';
 import ProductInfo from './pages/productInfo.jsx';
 import Order from './pages/orderPage.jsx';
 import { Bounce, ToastContainer } from 'react-toastify';
+import TodaysOrders from './pages/todaysOrder.jsx';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
       <Route path='/myAccount' element={<MyAccount/>}/>
       <Route path='/productInfo/:id' element={<ProductInfo/>}/>
       <Route path='/order/:id' element={<Order/>}/>
+      <Route path='/admin/todaysOrder' element={<TodaysOrders/>}/>
       </Route>
       
     </Routes>

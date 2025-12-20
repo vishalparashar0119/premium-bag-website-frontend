@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function ProgressBar(props) {
-      const {color , delay} = props;
+export default function ProgressBar({ color, delay }) {
   const [expand, setExpand] = useState(false);
 
   useEffect(() => {
@@ -13,13 +12,16 @@ export default function ProgressBar(props) {
   }, [delay]);
 
   return (
-    <div className="h-1 w-28 rounded">
+    <div className="h-1 w-28 rounded overflow-hidden">
       <div
-        className={`
-          h-full bg-${color}-500 rounded
+        style={{
+          backgroundColor: color,
+          width: expand ? "100%" : "0%",
+        }}
+        className="
+          h-full rounded
           transition-all duration-700 ease-in-out
-          ${expand ? "w-full" : "w-0"}
-        `}
+        "
       />
     </div>
   );

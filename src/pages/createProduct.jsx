@@ -44,10 +44,10 @@ const CreateProduct = () => {
             backgroundColor: z.string().optional(),
             pannelColor: z.string().optional(),
             textColor: z.string().optional(),
-            description : z.string().min(1 ,'Please provide a brief description'),
+            description: z.string().min(1, 'Please provide a brief description'),
       })
 
-      const { handleSubmit, formState: { errors, isSubmitting }, register, reset} = useForm({ resolver: zodResolver(registerSchema) });
+      const { handleSubmit, formState: { errors, isSubmitting }, register, reset } = useForm({ resolver: zodResolver(registerSchema) });
 
       const onSubmit = async (data) => {
             console.log(data);
@@ -93,6 +93,7 @@ const CreateProduct = () => {
                                     <div className="flex flex-col">
                                           <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
                                           <Link className="block w-fit mb-2" to='/admin/createProduct'>Create new product</Link>
+                                          <Link className="block w-fit mb-2" to="/admin/orders">Orders</Link>
                                     </div>
                               </div>
                               <main className="w-3/4 bg-white p-8 shadow ml-4">

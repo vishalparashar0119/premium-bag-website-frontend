@@ -1,0 +1,38 @@
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Bounce, toast , ToastContainer } from 'react-toastify'
+import { Outlet } from 'react-router-dom'
+import { BACKEND_URL } from '../config/env.js'
+
+const AdminsNavbar = () => {
+
+      const navigate = useNavigate();
+      const handleLogout = async () => {
+
+            try {
+                  const  confirmLogout = await axios.post(`${BACKEND_URL}/users/logout` , {} , {withCredentials:true});
+                  if(confirmLogout.data.success) navigate('/');
+
+            } catch ( error) {
+                    toast.error(error.confirmLogout.data.message)
+            }
+      }
+      return (
+            <>
+            <div className="">
+                  <nav className="w-full fixed top-0 left-0 px-5 py-3 flex justify-between items-center ">
+                        <h3 className="text-xl">Scatch</h3>
+
+                        <div className="flex gap-5 items-center">
+                              <button className='bg-red-600 text-white cursor-pointer py-1 px-3 rounded-sm' onClick={handleLogout}>Logout</button>
+                        </div>
+                  </nav>
+                  <ToastContainer position='top-center' transition={Bounce}/>
+            </div>
+            <Outlet/>
+            </>
+      )
+}
+
+export default AdminsNavbar

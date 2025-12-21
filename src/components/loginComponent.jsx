@@ -36,7 +36,8 @@ const LoginComponent = () => {
         withCredentials: true
       })
 
-      if (response.data.success) navigate('/shop');
+      if (response.data.success && response.data.isAdmin) navigate('/admin');
+      if (response.data.success && !response.data.isAdmin) navigate('/shop');
 
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);

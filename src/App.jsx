@@ -11,6 +11,7 @@ import ProductInfo from './pages/productInfo.jsx';
 import Order from './pages/orderPage.jsx';
 import { Bounce, ToastContainer } from 'react-toastify';
 import TodaysOrders from './pages/todaysOrder.jsx';
+import AdminsNavbar from './components/adminsNavbar.jsx';
 
 
 const App = () => {
@@ -19,12 +20,15 @@ const App = () => {
       <Route path='/' element={<Login/>}/>
       <Route  element={<Navbar/>}>
       <Route path='/shop' element={<Shop/>}/>
-      <Route path='/admin' element={<Admin/>}/>
-      <Route path='/admin/createProduct' element={<CreateProduct/>}/>
       <Route path='/cart' element={<Cart/>}/>
       <Route path='/myAccount' element={<MyAccount/>}/>
       <Route path='/productInfo/:id' element={<ProductInfo/>}/>
       <Route path='/order/:id' element={<Order/>}/>
+      </Route>
+
+      <Route element={<AdminsNavbar/>}>
+      <Route path='/admin' element={<Admin/>}/>
+      <Route path='/admin/createProduct' element={<CreateProduct/>}/>
       <Route path='/admin/orders' element={<TodaysOrders/>}/>
       </Route>
       

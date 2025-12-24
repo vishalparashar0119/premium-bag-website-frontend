@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/navbar";
-import { MdDelete } from "react-icons/md";
 import Loader from '../components/loader'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import { FaPlus, FaMinus } from "react-icons/fa6";
+import {toast } from "react-toastify";
 import { BACKEND_URL } from "../config/env.js";
 import CartCardComponent from "../components/cartCardComponent.jsx";
 
@@ -69,12 +66,12 @@ const Cart = () => {
       return (
             <>
 
-                  <div className="w-full min-h-screen bg-gray-100 px-10 py-10 flex gap-8">
+                  <div className="w-full min-h-screen bg-gray-100 px-2 md:px-10 py-10 md:flex gap-8">
 
                         {/* LEFT SIDE CART ITEMS */}
-                        <div className="w-[70%] bg-white rounded-md shadow p-5 mt-10">
+                        <div className="w-full md:w-[70%] bg-white rounded-md shadow p-2 md:p-5 mt-10 mb-20 md:mb-0">
 
-                              <h2 className="text-2xl font-semibold mb-4">Shopping Cart</h2>
+                              <h2 className="text-xl md:text-2xl font-semibold mb-4">Shopping Cart</h2>
 
                               {cartData.map((item, index) => (
                                     
@@ -97,24 +94,15 @@ const Cart = () => {
                                           </div>
                         
                               ))}
-
-                              {/* TOTAL VALUE AT THE BOTTOM */}
-                              <div className="flex justify-end mt-6 text-xl font-semibold">
-                                    Total: ₹
-                                    {cartData.reduce(
-                                          (acc, item) => acc + item.products.price * item.quantity,
-                                          0
-                                    )}
-                              </div>
                         </div>
 
                         {/* RIGHT SIDE TOTAL BOX LIKE AMAZON */}
-                        <div className="w-[30%] h-fit bg-white rounded-md shadow p-5 sticky top-20">
+                        <div className="w-full md:w-[30%] h-fit bg-white rounded-lg shadow p-5 fixed bottom-0 \  md:z-0  md:top-20 right-0">
                               <h3 className="text-lg font-medium mb-4">Order Summary</h3>
 
-                              <div className="flex justify-between text-lg">
-                                    <span>Items:</span>
-                                    <span>
+                              <div className="flex justify-between text-md md:text-lg">
+                                    <span>Total:</span>
+                                    <span className="font-bold">
                                           ₹{" "}
                                           {cartData.reduce(
                                                 (acc, item) => acc + item.products.price,
@@ -122,25 +110,8 @@ const Cart = () => {
                                           )}
                                     </span>
                               </div>
-
-                              <button className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
-                                    Proceed to Buy
-                              </button>
                         </div>
                   </div>
-                  <ToastContainer
-                        position="top-center"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick={false}
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                        transition={Bounce}
-                  />
             </>
       );
 };

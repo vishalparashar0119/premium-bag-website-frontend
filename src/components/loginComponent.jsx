@@ -50,10 +50,10 @@ const LoginComponent = () => {
   }
   return (
 
-    <div className="w-1/2 flex items-center justify-center h-fit">
-      <div className="w-full px-32">
-        <h3 className="text-4xl">welcome to <span className="text-blue-400 font-semibold">Scatch</span></h3>
-        <h4 className="text-2xl capitalize mb-5">login your account</h4>
+    <div className="w-full lg:w-1/2 flex items-center justify-center h-fit">
+      <div className="w-full px-10 md:px-32">
+        <h3 className="text-2xl md:text-4xl">welcome to <span className="text-blue-400 font-semibold">Scatch</span></h3>
+        <h4 className="text-xl md:text-2xl capitalize mb-5">login your account</h4>
         <form autoComplete="off" onSubmit={handleLoginSubmit(onLoginSubmit)}>
           {/* email */}
           <input

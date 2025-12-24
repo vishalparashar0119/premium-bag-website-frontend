@@ -10,13 +10,13 @@ function Login() {
 
   return (
     <>
-      <div className="w-full h-screen flex px-20  flex-col justify-center  items-center">
+      <div className="w-full h-screen flex md:px-20  flex-col justify-center  items-center">
 
 
         {toggle ? <CreateComponent setPopUp={setPopUp} /> : <LoginComponent />}
 
         {/*  */}
-        <div className='text-start  mt-3 w-1/2 px-33'>
+        <div className='text-start  mt-3 md:w-1/2 lg:px-33'>
 
           <button onClick={() => setToggle(!toggle)} className='text-blue-400 cursor-pointer'>{toggle ? "have an accout ?" : "dont have account ?"}</button>
         </div>

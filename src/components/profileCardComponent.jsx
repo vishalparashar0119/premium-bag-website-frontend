@@ -5,9 +5,9 @@ const ProfileCardComponent = (props) => {
       const { fullName, email, phoneNo, address, isAdmin ,setToggle } = props;
       return (
             <div className="bg-white shadow rounded-md p-6">
-                  <h2 className="text-2xl font-semibold mb-4">My Account</h2>
+                  <h2 className="text-xl md:text-2xl font-semibold mb-4">My Account</h2>
 
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 text-xs md:text-sm ">
                         <div className="flex justify-between">
                               <span className="text-gray-500">Full Name</span>
                               <span className="font-medium">{fullName}</span>
@@ -38,7 +38,7 @@ const ProfileCardComponent = (props) => {
                         )}
                   </div>
 
-                  <button onClick={()=>setToggle(true)} className="mt-6 bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded font-medium text-black">
+                  <button onClick={()=>setToggle(true)} className="mt-6 bg-yellow-400 hover:bg-yellow-500 text-sm px-4 py-2 md:px-6 rounded font-medium text-black">
                         Edit Profile
                   </button>
             </div>

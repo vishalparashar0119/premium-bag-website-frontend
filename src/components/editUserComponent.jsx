@@ -50,9 +50,9 @@ const EditProfile = (props) => {
 
 
       return (
-            <div className="w-full h-screen fixed z-20 top-0 right-0 left-0  bg-black/20 px-10 py-10 flex justify-center">
-                  <div className="w-full max-w-xl bg-white shadow rounded-md p-6">
-                        <h2 className="text-2xl font-semibold mb-6">Edit Profile</h2>
+            <div className="w-full h-screen fixed z-20 top-0 right-0 left-0  bg-black/20 px-4 md:px-10 py-10 flex justify-center">
+                  <div className="w-full md:w-2/3 lg:w-1/2 bg-white shadow rounded-md p-6">
+                        <h2 className="text-xl md:text-2xl font-semibold mb-6">Edit Profile</h2>
 
                         <form onSubmit={handleSubmit(onSubmit)}>
 

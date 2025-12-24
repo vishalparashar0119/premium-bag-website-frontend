@@ -46,10 +46,10 @@ const MyAccount = () => {
             <div>
 
 
-                  <div className="w-full min-h-screen bg-gray-100 px-10 py-10 flex gap-10 ">
+                  <div className="w-full min-h-screen bg-gray-100 px-2 md:px-10 py-10 flex flex-col md:flex-row gap-10 ">
 
                         {/* LEFT SIDE */}
-                        <div className="w-[65%] flex flex-col gap-8 mt-10">
+                        <div className="w-full md:w-[65%] flex flex-col gap-8 mt-10">
 
                               {/* PROFILE CARD */}
                               <ProfileCardComponent
@@ -62,13 +62,13 @@ const MyAccount = () => {
 
 
                               {/* ORDER HISTORY */}
-                              <div className="bg-white shadow rounded-md p-6">
-                                    <h3 className="text-2xl font-semibold mb-4">Order History</h3>
+                              <div className="bg-white shadow rounded-md p-2 md:p-6">
+                                    <h3 className="text-xl md:text-2xl font-semibold mb-4">Order History</h3>
 
                                     {userData.orderHistory.length === 0 ? (
                                           <p className="text-gray-500">No orders placed yet.</p>
                                     ) : (
-                                          <div className="flex flex-col gap-6">
+                                          <div className="flex flex-col gap-6 max-h-screen overflow-auto ">
                                                 {userData.orderHistory.map((order) => (
                                           
                                                       <OrderHistoryCardComponent
@@ -87,7 +87,7 @@ const MyAccount = () => {
                         </div>
 
                         {/* RIGHT SIDE SUMMARY */}
-                        <div className="w-[35%] h-fit bg-white shadow rounded-md p-6 sticky top-20">
+                        <div className="w-full md:w-[35%] h-fit bg-white shadow rounded-md p-6 md:sticky md:top-20">
                               <h3 className="text-xl font-semibold mb-4">Account Summary</h3>
 
                               <div className="flex justify-between mt-3">

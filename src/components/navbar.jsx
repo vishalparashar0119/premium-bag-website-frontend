@@ -26,7 +26,7 @@ const Navbar = () => {
       return (
             <>
                   <div className="">
-                        <nav className="w-full fixed top-0 left-0 px-5 py-3 flex justify-between items-center ">
+                        <nav className="w-full fixed z-30 top-0 left-0 px-5 py-3 flex justify-between items-center ">
                               <h3 className="text-xl">Scatch</h3>
 
                               <div className="hidden md:flex gap-5 items-center">
@@ -42,7 +42,7 @@ const Navbar = () => {
                         <ToastContainer position='top-center' transition={Bounce} />
                   </div>
 
-                  <div className={`w-full h-full bg-black/30  z-20   fixed top-0  transition-all duration-300 ${toggle ? 'right-0' : '-right-full'} md:hidden flex justify-end`} onClick={() => setToggle(false)}>
+                  <div className={`w-full h-full bg-black/30  z-40   fixed top-0  transition-all duration-300 ${toggle ? 'right-0' : '-right-full'} md:hidden flex justify-end`} onClick={() => setToggle(false)}>
                         <div className='w-[90%] bg-gray-100 h-full p-2 flex flex-col justify-between'>
 
                               <div className='  flex flex-col gap-2 text-xl '>

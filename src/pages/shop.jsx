@@ -6,6 +6,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import { BACKEND_URL } from '../config/env.js';
 import ShopCardComponent from '../components/shopCardComponent.jsx';
 import { toast } from 'react-toastify';
+import { IoColorFilterOutline } from 'react-icons/io5';
 
 
 const Shop = () => {
@@ -13,6 +14,7 @@ const Shop = () => {
       const navigate = useNavigate();
       const [products, setProducts] = useState([]);
       const [loading, setLoading] = useState(true);
+      const [toggle, setToggle] = useState(false);
 
       async function fetchProducts() {
 
@@ -90,8 +92,8 @@ const Shop = () => {
 
       return (
             <>
-                  <div className="w-full h-screen flex items-start px-20 py-20">
-                        <div className="w-[25%] flex h-screen flex-col items-start">
+                  <div className="w-full relative h-screen flex items-start md:px-20 py-20">
+                        <div className="hidden  w-[25%] md:flex h-screen flex-col items-start">
                               <div className="flex flex-col justify-center gap-2">
                                     <h3>sort by</h3>
                                     <select onChange={(e) => filterData(e.target.value)}
@@ -112,22 +114,46 @@ const Shop = () => {
                               </div>
 
                         </div>
-                        <div className="w-[75%] flex flex-col gap-5 h-screen">
-                              <div className="flex items-start gap-5 flex-wrap">
+                        <div className=" md:w-[75%] flex flex-col gap-5 h-screen">
+                              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
                                     {/* <% products.forEach(function(product){ %> */}
                                     {
                                           products.map((product) => {
                                                 return (
-                                                      <Link key={product._id} to={`/productInfo/${product._id}`}>
-                                                            <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} addToCart={addToCart} />
-
-                                                      </Link>
+                                                      <ShopCardComponent key={product._id} productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} addToCart={addToCart} />
                                                 )
                                           })
                                     }
 
                                     {/* <% }) %> */}
                               </div>
+                        </div>
+
+                        <button onClick={()=> setToggle(true)} className='h-10 w-10 fixed  bottom-2 left-2 rounded-full flex justify-center items-center bg-white md:hidden'>
+                              <IoColorFilterOutline className='h-6 w-6' />
+
+                        </button>
+
+                        <div className={` fixed z-40  top-0 w-full bg-black/30 flex h-screen flex-col items-start  transition-all duration-300 ${toggle ? 'left-0' : '-left-full'} md:hidden`} onClick={()=> setToggle(false)}>
+                              <div className="flex  p-5 h-full bg-white w-[90%] flex-col  gap-2">
+                                    <h3>sort by</h3>
+                                    <select onChange={(e) => filterData(e.target.value)}
+                                          className="border px-2 py-1" name="sortby" id="">
+                                          <option onClick={() => filterData('popular')} value="popular">Popular</option>
+                                          <option onClick={() => filterData('newest')} value="newest">Newest</option>
+                                    </select>
+                                    <div className="flex flex-col mt-20">
+                                          <button onClick={() => filterData('New Collection')} className=" cursor-pointer block w-fit mb-2">New Collection</button>
+                                          <button onClick={() => filterData('All Products')} className=" cursor-pointer block w-fit mb-2" >All Products</button>
+                                          <button onClick={() => filterData('Discounted Products')} className=" cursor-pointer block w-fit mb-2" >Discounted Products</button>
+                                    </div>
+                                    <div className="mt-32">
+                                          <h1 className="block w-fit mb-2 font-bold">Filter by :</h1>
+                                          <button onClick={() => filterData('Availability')} className="block w-fit mb-2 cursor-pointer">Availability</button>
+                                          <button onClick={() => filterData('Discounted Products')} className="block w-fit mb-2 cursor-pointer">Discount</button>
+                                    </div>
+                              </div>
+
                         </div>
                   </div>
             </>

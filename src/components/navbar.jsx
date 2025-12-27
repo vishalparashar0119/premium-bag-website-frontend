@@ -42,14 +42,16 @@ const Navbar = () => {
                         <ToastContainer position='top-center' transition={Bounce} />
                   </div>
 
-                  <div className={`w-full h-screen bg-gray-100 z-20   fixed top-0  transition-all duration-300 ${toggle ? 'right-0' : '-right-full'} md:hidden p-2 flex flex-col justify-between`}>
-                        <div className='flex flex-col gap-2 '>
-                              <IoCloseSharp className='h-6 w-6' onClick={() => setToggle(false)} />
-                              <Link to='/shop' onClick={() => setToggle(false)}>Shop</Link>
-                              <Link to='/cart' onClick={() => setToggle(false)}>Cart</Link>
-                              <Link to='/myAccount' onClick={() => setToggle(false)}>My Account</Link>
+                  <div className={`w-full h-full bg-black/30  z-20   fixed top-0  transition-all duration-300 ${toggle ? 'right-0' : '-right-full'} md:hidden flex justify-end`} onClick={() => setToggle(false)}>
+                        <div className='w-[90%] bg-gray-100 h-full p-2 flex flex-col justify-between'>
+
+                              <div className='  flex flex-col gap-2 text-xl '>
+                                    <Link to='/shop' >Shop</Link>
+                                    <Link to='/cart' >Cart</Link>
+                                    <Link to='/myAccount'>My Account</Link>
+                              </div>
+                              <button className='bg-red-600 text-white w-full cursor-pointer py-3 px-3 rounded-sm' onClick={handleLogout}>Logout</button>
                         </div>
-                        <button className='bg-red-600 text-white w-full cursor-pointer py-1 px-3 rounded-sm' onClick={handleLogout}>Logout</button>
                   </div>
                   <Outlet />
             </>

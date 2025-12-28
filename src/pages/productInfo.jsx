@@ -68,13 +68,13 @@ const ProductInfo = () => {
   return (
     <>
 
-      <div className="w-full min-h-screen bg-gray-100 px-10 py-20 mt">
+      <div className="w-full min-h-screen bg-gray-100 px-2 sm:px-10 py-20 mt">
 
         {/* MAIN CONTAINER */}
-        <div className="w-full bg-white rounded-md shadow p-6 flex gap-10">
+        <div className="w-full bg-white rounded-md shadow p-3 sm:p-6 flex flex-col lg:flex-row gap-10">
 
           {/* LEFT SIDE IMAGE */}
-          <div className="w-[40%] h-[450px] bg-gray-200 rounded overflow-hidden">
+          <div className="W-full lg:w-[40%] h-[300px] md:h-3/4 bg-gray-200 rounded overflow-hidden">
             <img
               src={product.image.imageUrl}
               className="w-full h-full object-cover"
@@ -83,10 +83,10 @@ const ProductInfo = () => {
           </div>
 
           {/* RIGHT SIDE DETAILS */}
-          <div className="w-[60%] flex flex-col">
+          <div className="w-full lg:w-[60%] flex flex-col">
 
             {/* PRODUCT NAME */}
-            <h1 className="text-3xl font-semibold">{product.productName}</h1>
+            <h1 className="text-xl lg:text-3xl font-semibold">{product.productName}</h1>
 
             {/* RATING */}
             <div className="flex items-center gap-1 mt-2 text-yellow-500 text-xl">
@@ -102,7 +102,7 @@ const ProductInfo = () => {
             </div>
 
             {/* PRICE */}
-            <h2 className="text-3xl font-bold mt-5 text-green-600">
+            <h2 className="text-xl sm:text-3xl font-bold mt-5 text-green-600">
               ₹ {product.price}
             </h2>
 

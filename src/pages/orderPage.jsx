@@ -130,10 +130,10 @@ const Order = () => {
 
   return (
     <>
-      <div className="w-full min-h-screen bg-gray-100 px-10 py-20 flex gap-8">
+      <div className="w-full min-h-screen bg-gray-100 px-3 md:px-10 pt-20 pb-60 md:pb-0 flex gap-8">
 
         {/* LEFT SECTION */}
-        <div className="w-[70%] bg-white rounded-md shadow py-6">
+        <div className="w-full  md:w-[70%] bg-white rounded-md shadow py-6">
 
           <h2 className="text-2xl font-semibold ml-6 mb-6">Checkout</h2>
 
@@ -221,7 +221,7 @@ const Order = () => {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="w-[30%] h-fit bg-white rounded-md shadow p-5 sticky top-20">
+        <div className="w-full md:w-[30%] h-fit bg-white rounded-md shadow p-5 fixed right-0 bottom-0  md:top-20">
 
           <h3 className="text-lg font-medium mb-4">Order Summary</h3>
 

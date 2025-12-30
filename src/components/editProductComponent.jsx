@@ -19,7 +19,7 @@ const EditProduct = (props) => {
 
       const fetchProduct = async () => {
             try {
-                  const response = await axios.get(`${BACKEND_URL}/products/product/${id}`, { withCredentials: true });
+                  const response = await axios.get(`${BACKEND_URL}/owners/product/${id}`, { withCredentials: true });
 
                   if (!response.data.success) navigate('/');
 

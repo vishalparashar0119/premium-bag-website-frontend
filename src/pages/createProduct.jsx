@@ -86,11 +86,9 @@ const CreateProduct = () => {
 
       return (
             <>
-
-
                   <div className="min-h-screen flex flex-col">
-                        <div className="container px-10 py-20 flex grow">
-                              <AdminsNavigation/>
+                        <div className="container px-20 py-20 flex grow">
+                              <AdminsNavigation />
                               <main className="w-3/4 bg-white p-8 shadow ml-4">
                                     <h2 className="text-xl font-bold mb-4">Create New Product</h2>
                                     <form autoComplete="off" encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>

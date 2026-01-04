@@ -5,8 +5,8 @@ import Loader from '../components/loader';
 import { MdDelete } from 'react-icons/md';
 import { BACKEND_URL } from '../config/env.js';
 import EditProduct from '../components/editProductComponent.jsx';
-import { toast } from 'react-toastify';
 import AdminsNavigation from '../components/adminsNavigation.jsx';
+import ShopCardComponent from '../components/shopCardComponent.jsx';
 
 const Admin = () => {
 
@@ -41,29 +41,6 @@ const Admin = () => {
         setToggle(true);
     }
 
-    const deleteProduct = async (id) => {
-        let response;
-        try {
-            const confirm = window.confirm('Are you sure you want to delete to this product');
-
-            if (confirm) {
-                response = await axios.delete(`${BACKEND_URL}/owners/deleteProduct/${id}`, {
-                    withCredentials: true
-                });
-
-                setLoading(true);
-                setProducts(response.data.products);
-                setLoading(false);
-
-                toast.success(response.data.message);
-            }
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
-    }
-
-
-
 
     useEffect(() => {
 
@@ -79,36 +56,19 @@ const Admin = () => {
         <div>
 
             <div className="w-full h-screen flex items-start px-20 py-20">
-                <AdminsNavigation/>
+                <AdminsNavigation />
                 <div className="w-[75%] flex flex-col gap-5 h-screen">
                     <a className="text-red-500" href="">Delete all</a>
-                    <div className='flex flex-wrap gap-5'>
+                    <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5'>
 
                         {
                             products.map((product) => {
                                 return (
                                     <div onClick={() => editProduct(product._id)} key={product._id} className="flex flex-wrap gap-5">
-
-                                        <div className="w-60 bg-yellow-600">
-                                            <div className="w-full h-52 bg-yellow-500">
-                                                <img src={product.image.imageUrl} alt="" className='w-full h-full object-cover ' />
-                                            </div>
-                                            <div className="flex justify-between items-center px-4 py-4">
-                                                <div>
-                                                    <h3>{product.productName}</h3>
-                                                    <h4>₹ {product.price}</h4>
-                                                    <h6 className='text-white text-sm'>QTY:{product.quantity}</h6>
-                                                    {product.quantity >= 0 ? <h6 className='text-white text-sm'>In stock</h6> : <h6 className='text-red-600 text-sm'>Out of stock</h6>}
-                                                </div>
-                                                <button onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    deleteProduct(product._id)
-                                                }} className=" bg-red-600  hover:bg-red-700 text-white w-9 h-9 rounded-full flex justify-center items-center cursor-pointer">
-                                                    <MdDelete className="w-6 h-6" />
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl}
+                                        quantity={product.quantity}
+                                        isAdmin={true}
+                                        fetchProducts={fetchProducts} />
                                     </div>
                                 )
                             })

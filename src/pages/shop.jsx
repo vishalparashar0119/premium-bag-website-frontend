@@ -36,19 +36,6 @@ const Shop = () => {
 
       }
 
-      const addToCart = async (productId) => {
-            console.log(productId);
-
-            try {
-                  const response = await axios.post(`${BACKEND_URL}/users/addToCart/${productId}`, {}, {
-                        withCredentials: true
-                  });
-                  toast.success(response.data.message);
-            } catch (error) {
-                  toast.error(error.response.data.message);
-            }
-      }
-
       const filterData = async (data) => {
             try {
                   let response;
@@ -120,21 +107,23 @@ const Shop = () => {
                                     {
                                           products.map((product) => {
                                                 return (
-                                                      <ShopCardComponent key={product._id} productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} addToCart={addToCart} />
+
+                                                      <Link key={product._id} to={`/productInfo/${product._id}`} className="block">
+                                                            <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} 
+                                                            quantity={product.quantity}/>
+                                                      </Link>
                                                 )
                                           })
                                     }
-
-                                    {/* <% }) %> */}
                               </div>
                         </div>
 
-                        <button onClick={()=> setToggle(true)} className='h-10 w-10 fixed  bottom-2 left-2 rounded-full flex justify-center items-center bg-white md:hidden'>
+                        <button onClick={() => setToggle(true)} className='h-10 w-10 fixed  bottom-2 left-2 rounded-full flex justify-center items-center bg-white md:hidden'>
                               <IoColorFilterOutline className='h-6 w-6' />
 
                         </button>
 
-                        <div className={` fixed z-40  top-0 w-full bg-black/30 flex h-screen flex-col items-start  transition-all duration-300 ${toggle ? 'left-0' : '-left-full'} md:hidden`} onClick={()=> setToggle(false)}>
+                        <div className={` fixed z-40  top-0 w-full bg-black/30 flex h-screen flex-col items-start  transition-all duration-300 ${toggle ? 'left-0' : '-left-full'} md:hidden`} onClick={() => setToggle(false)}>
                               <div className="flex  p-5 h-full bg-white w-[90%] flex-col  gap-2">
                                     <h3>sort by</h3>
                                     <select onChange={(e) => filterData(e.target.value)}

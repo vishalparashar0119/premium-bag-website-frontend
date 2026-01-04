@@ -9,6 +9,7 @@ import Delivered from '../components/deliveredComponent';
 import axios from 'axios';
 import { BACKEND_URL } from '../config/env';
 import Loader from '../components/loader';
+import AdminsNavigation from '../components/adminsNavigation';
 
 
 const TodaysOrders = () => {
@@ -47,13 +48,7 @@ const TodaysOrders = () => {
                   <div className="w-full h-screen flex items-start px-20 py-20">
 
                         {/* Sidebar */}
-                        <div className="w-[25%] flex h-screen flex-col items-start">
-                              <div className="flex flex-col">
-                                    <Link className="block w-fit mb-2" to="/admin">All Products</Link>
-                                    <Link className="block w-fit mb-2" to="/admin/createProduct">Create New Product</Link>
-                                    <Link className="block w-fit mb-2" to="/admin/orders">Orders</Link>
-                              </div>
-                        </div>
+                        <AdminsNavigation/>
 
                         {/* Main Content */}
                         <div className="w-[75%] flex flex-col gap-5 min-h-screen  ">

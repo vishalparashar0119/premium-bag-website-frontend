@@ -7,6 +7,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import Loader from '../components/loader'
 import { BACKEND_URL } from '../config/env.js'
+import AdminsNavigation from '../components/adminsNavigation.jsx'
 
 
 
@@ -89,13 +90,7 @@ const CreateProduct = () => {
 
                   <div className="min-h-screen flex flex-col">
                         <div className="container px-10 py-20 flex grow">
-                              <div className="w-[25%] flex h-screen flex-col items-start">
-                                    <div className="flex flex-col">
-                                          <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
-                                          <Link className="block w-fit mb-2" to='/admin/createProduct'>Create new product</Link>
-                                          <Link className="block w-fit mb-2" to="/admin/orders">Orders</Link>
-                                    </div>
-                              </div>
+                              <AdminsNavigation/>
                               <main className="w-3/4 bg-white p-8 shadow ml-4">
                                     <h2 className="text-xl font-bold mb-4">Create New Product</h2>
                                     <form autoComplete="off" encType="multipart/form-data" onSubmit={handleSubmit(onSubmit)}>

@@ -6,6 +6,7 @@ import { MdDelete } from 'react-icons/md';
 import { BACKEND_URL } from '../config/env.js';
 import EditProduct from '../components/editProductComponent.jsx';
 import { toast } from 'react-toastify';
+import AdminsNavigation from '../components/adminsNavigation.jsx';
 
 const Admin = () => {
 
@@ -78,13 +79,7 @@ const Admin = () => {
         <div>
 
             <div className="w-full h-screen flex items-start px-20 py-20">
-                <div className="w-[25%] flex h-screen flex-col items-start">
-                    <div className="flex flex-col">
-                        <Link className="block w-fit mb-2" to='/admin'>All Products</Link>
-                        <Link className="block w-fit mb-2" to='/admin/createProduct'>Create new product</Link>
-                         <Link className="block w-fit mb-2" to="/admin/orders">Orders</Link>
-                    </div>
-                </div>
+                <AdminsNavigation/>
                 <div className="w-[75%] flex flex-col gap-5 h-screen">
                     <a className="text-red-500" href="">Delete all</a>
                     <div className='flex flex-wrap gap-5'>

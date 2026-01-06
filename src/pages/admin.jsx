@@ -19,7 +19,7 @@ const Admin = () => {
     async function fetchProducts() {
 
         try {
-
+            
             const response = await axios.get(`${BACKEND_URL}/owners`, {
                 withCredentials: true
             });
@@ -66,9 +66,10 @@ const Admin = () => {
                                 return (
                                     <div onClick={() => editProduct(product._id)} key={product._id} className="flex flex-wrap gap-5">
                                         <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl}
-                                        quantity={product.quantity}
-                                        isAdmin={true}
-                                        fetchProducts={fetchProducts} />
+                                            quantity={product.quantity}
+                                            isAdmin={true}
+                                            fetchProducts={fetchProducts} 
+                                            setLoading = {setLoading} />
                                     </div>
                                 )
                             })

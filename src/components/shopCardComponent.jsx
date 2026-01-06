@@ -5,39 +5,45 @@ import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 
 const ShopCardComponent = (props) => {
-  const { imageUrl, productName, price, id, quantity, isAdmin = false, fetchProducts = null } = props;
+  const { imageUrl, productName, price, id, quantity, isAdmin = false, fetchProducts = null, setLoading } = props;
 
 
 
   const addToCart = async (id) => {
 
     try {
+      setLoading(true);
       const response = await axios.post(`${BACKEND_URL}/users/addToCart/${id}`, {}, {
         withCredentials: true
       });
+      setLoading(false);
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response.data.message);
+      setLoading(false);
     }
   }
 
   const deleteProduct = async (id) => {
-    let response;
     try {
+      let response;
       const confirm = window.confirm('Are you sure you want to delete to this product');
-
+      
       if (confirm) {
+        setLoading(true)
         response = await axios.delete(`${BACKEND_URL}/owners/deleteProduct/${id}`, {
           withCredentials: true
         });
-        
+
         if (typeof fetchProducts === "function") {
           await fetchProducts();
         }
-
+        setLoading(false);
         toast.success(response.data.message);
       }
+
     } catch (error) {
+      setLoading(false);
       toast.error(error.response.data.message);
     }
   }

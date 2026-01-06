@@ -40,7 +40,15 @@ const TodaysOrders = () => {
       useEffect(() => {
             fetchTodayOrder()
             // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])
+      }, []);
+
+      const updateProcess = async (orderId) => {
+            setLoading(true);
+            const response = await axios.put(`${BACKEND_URL}/owners/updateProcess/${orderId}`, {}, { withCredentials: true })
+            setOrderData(response.data.todaysOrder);
+            console.log(response.data.todaysOrder);
+            setLoading(false);
+      }
 
       if (loading) return <Loader />
       return (
@@ -48,7 +56,7 @@ const TodaysOrders = () => {
                   <div className="w-full h-screen flex items-start px-20 py-20">
 
                         {/* Sidebar */}
-                        <AdminsNavigation/>
+                        <AdminsNavigation />
 
                         {/* Main Content */}
                         <div className="w-[75%] flex flex-col gap-5 min-h-screen  ">
@@ -85,21 +93,21 @@ const TodaysOrders = () => {
                                                       </div>
 
                                                       {/* Action Button */}
-                                                      
-                                                            <button className="absolute bottom-7  right-10 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
-                                                                  {order.status.toUpperCase()}
-                                                            </button>
-                                                      
+
+                                                      <button onClick={() => updateProcess(order._id)} className="absolute bottom-7  right-10 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+                                                            {order.status.toUpperCase()}
+                                                      </button>
+
                                                 </div>
 
 
                                                 <div className='w-full  flex gap-2 p-5 justify-center items-center '>
-                                                      {order.status === 'notViewed' && (<NotViewed />)}
-                                                      {order.status === 'viewed' && (<Viewed />)}
-                                                      {order.status === 'packed' && (<Packed />)}
-                                                      {order.status === 'shipped' && (<Shipped />)}
-                                                      {order.status === 'delivered' && (<Delivered />)}
-                                                      {order.status === 'returned' && (<Return />)}
+                                                      {order.status === 'Not Viewed' && (<NotViewed />)}
+                                                      {order.status === 'Viewed' && (<Viewed />)}
+                                                      {order.status === 'Packed' && (<Packed />)}
+                                                      {order.status === 'Shipped' && (<Shipped />)}
+                                                      {order.status === 'Delivered' && (<Delivered />)}
+                                                      {order.status === 'Returned' && (<Return />)}
                                                 </div>
                                           </div>
                                     ))}

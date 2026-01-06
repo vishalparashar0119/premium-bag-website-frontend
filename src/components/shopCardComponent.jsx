@@ -30,8 +30,10 @@ const ShopCardComponent = (props) => {
         response = await axios.delete(`${BACKEND_URL}/owners/deleteProduct/${id}`, {
           withCredentials: true
         });
-
-        await fetchProducts();
+        
+        if (typeof fetchProducts === "function") {
+          await fetchProducts();
+        }
 
         toast.success(response.data.message);
       }

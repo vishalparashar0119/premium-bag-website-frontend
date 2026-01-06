@@ -110,7 +110,8 @@ const Shop = () => {
 
                                                       <Link key={product._id} to={`/productInfo/${product._id}`} className="block">
                                                             <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} 
-                                                            quantity={product.quantity}/>
+                                                            quantity={product.quantity}
+                                                            setLoading = {setLoading}/>
                                                       </Link>
                                                 )
                                           })

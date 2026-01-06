@@ -51,6 +51,7 @@ const CreateProduct = () => {
       const { handleSubmit, formState: { errors, isSubmitting }, register, reset } = useForm({ resolver: zodResolver(registerSchema) });
 
       const onSubmit = async (data) => {
+            setIsLoading(true);
             console.log(data);
             const formData = new FormData();
             formData.append('productName', data.productName);
@@ -70,10 +71,11 @@ const CreateProduct = () => {
                         },
                         withCredentials: true,
                   });
-
+                  setIsLoading(false);
                   toast.success(response.data.message);
 
             } catch (error) {
+                  setIsLoading(false);
                   toast.error(error.response.data.message || error.message);
             }
 

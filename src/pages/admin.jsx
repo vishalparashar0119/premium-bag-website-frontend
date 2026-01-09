@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
@@ -7,6 +7,7 @@ import { BACKEND_URL } from '../config/env.js';
 import EditProduct from '../components/editProductComponent.jsx';
 import AdminsNavigation from '../components/adminsNavigation.jsx';
 import ShopCardComponent from '../components/shopCardComponent.jsx';
+import { fetchProductsAdmin } from '../api/admin.api.js';
 
 const Admin = () => {
 
@@ -16,35 +17,22 @@ const Admin = () => {
     const [toggle, setToggle] = useState(false);
     const [id, setId] = useState(false);
 
-    async function fetchProducts() {
-
-        try {
-            
-            const response = await axios.get(`${BACKEND_URL}/owners`, {
-                withCredentials: true
-            });
-
-            if (!response.data.success) navigate('/');
-
-            setProducts(response.data.products);
-            setLoading(false);
-
-        } catch (error) {
-            console.log(error.message);
-            navigate('/');
-        }
-
-    }
-
     const editProduct = (id) => {
         setId(id);
         setToggle(true);
     }
 
+    const  fetchProduct = async () =>{
+        setLoading(true);
+        const data = await fetchProductsAdmin();
+        if(!data.success) navigate('/');
+        setProducts(data.products);   
+        setLoading(false);
+    }
+
 
     useEffect(() => {
-
-        fetchProducts();
+        fetchProduct();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -68,7 +56,7 @@ const Admin = () => {
                                         <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl}
                                             quantity={product.quantity}
                                             isAdmin={true}
-                                            fetchProducts={fetchProducts} 
+                                            fetchProducts={fetchProduct} 
                                             setLoading = {setLoading} />
                                     </div>
                                 )

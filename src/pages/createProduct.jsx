@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { toast } from 'react-toastify'
 import Loader from '../components/loader'
 import { BACKEND_URL } from '../config/env.js'
 import AdminsNavigation from '../components/adminsNavigation.jsx'
+import { createProduct } from '../api/admin.api.js'
 
 
 
@@ -51,7 +51,6 @@ const CreateProduct = () => {
       const { handleSubmit, formState: { errors, isSubmitting }, register, reset } = useForm({ resolver: zodResolver(registerSchema) });
 
       const onSubmit = async (data) => {
-            setIsLoading(true);
             console.log(data);
             const formData = new FormData();
             formData.append('productName', data.productName);
@@ -63,22 +62,10 @@ const CreateProduct = () => {
             formData.append('pannelColor', data.pannelColor);
             formData.append('textColor', data.textColor);
             formData.append('description', data.description);
-
-            try {
-                  const response = await axios.post(`${BACKEND_URL}/owners/createProduct`, formData, {
-                        headers: {
-                              'Content-Type': 'multipart/form-data',
-                        },
-                        withCredentials: true,
-                  });
-                  setIsLoading(false);
-                  toast.success(response.data.message);
-
-            } catch (error) {
-                  setIsLoading(false);
-                  toast.error(error.response.data.message || error.message);
-            }
-
+            
+            setIsLoading(true);
+            await createProduct(formData);
+            setIsLoading(false);
             reset();
       }
 

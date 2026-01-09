@@ -3,6 +3,7 @@ import { CiCirclePlus } from 'react-icons/ci';
 import { BACKEND_URL } from '../config/env';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
+import { deleteProduct } from '../api/admin.api';
 
 const ShopCardComponent = (props) => {
   const { imageUrl, productName, price, id, quantity, isAdmin = false, fetchProducts = null, setLoading } = props;
@@ -24,27 +25,17 @@ const ShopCardComponent = (props) => {
     }
   }
 
-  const deleteProduct = async (id) => {
-    try {
-      let response;
-      const confirm = window.confirm('Are you sure you want to delete to this product');
-      
-      if (confirm) {
-        setLoading(true)
-        response = await axios.delete(`${BACKEND_URL}/owners/deleteProduct/${id}`, {
-          withCredentials: true
-        });
+  const deleteProducts = async (id) => {
 
-        if (typeof fetchProducts === "function") {
-          await fetchProducts();
-        }
-        setLoading(false);
-        toast.success(response.data.message);
+    const confirm = window.confirm('Are you sure you want to delete to this product');
+
+    if (confirm) {
+      setLoading(true)
+      await deleteProduct(id)
+      if (typeof fetchProducts === "function") {
+        await fetchProducts();
       }
-
-    } catch (error) {
       setLoading(false);
-      toast.error(error.response.data.message);
     }
   }
 
@@ -80,7 +71,7 @@ const ShopCardComponent = (props) => {
         {isAdmin ? <button onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          deleteProduct(id)
+          deleteProducts(id)
         }} className=" bg-red-600  hover:bg-red-700 text-white w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full  shrink-0">
           <MdDelete className="w-7 h-7" />
         </button> : <button

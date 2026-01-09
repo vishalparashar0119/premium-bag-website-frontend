@@ -1,3 +1,35 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "flowbite/src/themes/default";
+
+/* Position dots */
+.hero-slick {
+      position : relative;
+}
+
+.hero-slick .slick-dots {
+      position:absolute;
+  bottom: 0;
+}
+
+/* Space between dots */
+.hero-slick .slick-dots li {
+  margin: 0 1px;
+}
+
+/* Default dot */
+.hero-slick .slick-dots li button:before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #9ca3af; /* gray */
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+/* Active dot */
+.hero-slick .slick-dots li.slick-active button:before {
+  background-color: #fb923c;
+  transform: scale(1);
+}

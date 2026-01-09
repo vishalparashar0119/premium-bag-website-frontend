@@ -12,12 +12,14 @@ import Order from './pages/orderPage.jsx';
 import { Bounce, ToastContainer } from 'react-toastify';
 import TodaysOrders from './pages/todaysOrder.jsx';
 import AdminsNavbar from './components/adminsNavbar.jsx';
+import HomePage from './pages/homePage.jsx';
 
 
 const App = () => {
   return (<>
     <Routes>
       <Route path='/' element={<Login/>}/>
+      <Route path='/home' element={<HomePage/>}/>
       <Route  element={<Navbar/>}>
       <Route path='/shop' element={<Shop/>}/>
       <Route path='/cart' element={<Cart/>}/>

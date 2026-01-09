@@ -80,7 +80,7 @@ const Shop = () => {
       return (
             <>
                   <div className="w-full relative h-screen flex items-start md:px-20 py-20">
-                        <div className="hidden  w-[25%] md:flex h-screen flex-col items-start">
+                        <div className="hidden  w-[25%] md:flex flex-col items-start">
                               <div className="flex flex-col justify-center gap-2">
                                     <h3>sort by</h3>
                                     <select onChange={(e) => filterData(e.target.value)}
@@ -101,7 +101,7 @@ const Shop = () => {
                               </div>
 
                         </div>
-                        <div className=" md:w-[75%] flex flex-col gap-5 h-screen">
+                        <div className=" md:w-[75%] flex flex-col gap-5 ">
                               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
                                     {/* <% products.forEach(function(product){ %> */}
                                     {

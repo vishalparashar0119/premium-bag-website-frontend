@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import z from "zod";
 import { BACKEND_URL } from "../config/env.js";
+import { loginUser } from "../api/auth.api.js";
 
 const LoginComponent = () => {
 
@@ -31,22 +31,16 @@ const LoginComponent = () => {
 
   const onLoginSubmit = async (data) => {
 
-    try {
-      const response = await axios.post(`${BACKEND_URL}/users/login`, { email: data.email, password: data.password }, {
-        withCredentials: true
-      })
 
-      if (response.data.success && response.data.isAdmin) navigate('/admin');
-      if (response.data.success && !response.data.isAdmin) navigate('/shop');
+    const response = await loginUser(data);
 
-    } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
-    }
+    console.log(response);
+    if (response.success && response.isAdmin) navigate('/admin');
+    if (response.success && !response.isAdmin) navigate('/shop');
+
+    toast.error(response.message);
 
     await new Promise(resolve => setTimeout(resolve, 2000));
-
-    console.log("Done!");
-
   }
   return (
 

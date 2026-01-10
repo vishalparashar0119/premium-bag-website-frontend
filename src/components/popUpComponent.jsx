@@ -1,11 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import z from "zod";
-import { BACKEND_URL } from "../config/env.js";
+import { createUser } from "../api/auth.api.js";
 
 const PopUpComponent = (props) => {
 
@@ -52,17 +51,13 @@ const PopUpComponent = (props) => {
 
   const onSubmit = async (data) => {
 
-    try {
-      const res = await axios.post(`${BACKEND_URL}/users/register`, { otp: data.otp }, {
-        withCredentials: true
-      })
+    const response = await createUser(data);
 
-      if (res.data.success) navigate('/shop');
-
-      toast.success(res.data.message)
-      console.log(res)
-    } catch (error) {
-      toast.error(error.response?.data?.message || error.message)
+    if (response.success) {
+      navigate('/shop');
+      toast.success(response.message)
+    } else {
+      toast.error(response?.message)
     }
 
     await new Promise(resolve => setTimeout(resolve, 2000));

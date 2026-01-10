@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import z from "zod";
-import { BACKEND_URL } from "../config/env.js";
 import { createVerification } from "../api/auth.api.js";
 
 const CreateComponent = (propes) => {

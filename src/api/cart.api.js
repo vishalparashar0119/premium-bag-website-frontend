@@ -37,3 +37,15 @@ export const removeFromCart = async (id) => {
             toast.error(error.response.data.message)
       }
 }
+
+export const updateProductQuantity = async (id, action) => {
+
+      try {
+
+            const response = await axios.put(`${BACKEND_URL}/users/updateQuantity`, { id, action }, { withCredentials: true });
+            return response.data;
+
+      } catch (error) {
+            console.log(error.message)
+      }
+}

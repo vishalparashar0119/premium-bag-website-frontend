@@ -28,3 +28,12 @@ export const fetchUserCartData = async () => {
             return { success: false, message: error.response.data.message || error.message }
       }
 }
+
+export const removeFromCart = async (id) => {
+      try {
+            const response = await axios.post(`${BACKEND_URL}/users/removeToCart/${id}`, {}, { withCredentials: true });
+            toast.success(response.data.message);
+      } catch (error) {
+            toast.error(error.response.data.message)
+      }
+}

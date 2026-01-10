@@ -1,7 +1,3 @@
-//login 
-// register 
-// logout
-
 import axios from "axios";
 import { BACKEND_URL } from "../config/env";
 
@@ -37,6 +33,16 @@ export const createUser = async (data) => {
             })
 
             return response.data;
+      } catch (error) {
+            return { success: false, message: error.response?.data?.message || error.message }
+      }
+}
+
+export const logoutUser = async () => {
+      try {
+            const response = await axios.post(`${BACKEND_URL}/users/logout`, {}, { withCredentials: true });
+            return response.data;
+
       } catch (error) {
             return { success: false, message: error.response?.data?.message || error.message }
       }

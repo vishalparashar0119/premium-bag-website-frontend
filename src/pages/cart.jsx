@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import Loader from '../components/loader'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { BACKEND_URL } from "../config/env.js";
 import CartCardComponent from "../components/cartCardComponent.jsx";
-import { fetchUserCartData } from "../api/cart.api.js";
+import { fetchUserCartData, removeFromCart } from "../api/cart.api.js";
 
 
 
@@ -35,13 +34,8 @@ const Cart = () => {
       }, [])
 
       const removeToCart = async (id) => {
-            try {
-                  const response = await axios.post(`${BACKEND_URL}/users/removeToCart/${id}`, {}, { withCredentials: true });
-                  toast.success(response.data.message);
-                  setCartData(response.data.cartData);
-            } catch (error) {
-                  toast.error(error.response.data.message)
-            }
+         await removeFromCart(id);
+         fetchCartData();
       }
 
       const updateQuantity = async (id, action) => {

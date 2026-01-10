@@ -1,17 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import z from "zod";
 import { BACKEND_URL } from "../config/env.js";
+import { createVerification } from "../api/auth.api.js";
 
 const CreateComponent = (propes) => {
 
 
   const { setPopUp } = propes;
-
-
-  const notify = (message) => toast.error(message)
 
   const registerSchema = z.object({
     fullName: z.string().min(1, 'Name must be at least 1 character long'),
@@ -25,22 +22,18 @@ const CreateComponent = (propes) => {
 
   const onSubmit = async (data) => {
 
-    try {
-      const res = await axios.post(`${BACKEND_URL}/users/verify`, { fullName: data.fullName, email: data.email, password: data.password }, {
-        withCredentials: true
-      });
+    const response = await createVerification(data);
+    console.log(response);
 
-      console.log(res.data)
-
-      toast.success(res.data.message)
+    if (response.success) {
+      toast.success(response.message)
       setPopUp(true);
-    } catch (error) {
-      console.log(error.message)
-      if (error.response?.data?.message.includes('pending')) {
+    } else {
+      if (response.message.includes('pending')) {
         setPopUp(true)
-        notify(error.response?.data?.message || error.message)
+        toast.error(response.message);
       } else {
-        notify(error.response?.data?.message || error.message)
+        toast.error(response.message)
       }
     }
 

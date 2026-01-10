@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Loader from '../components/loader'
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../config/env.js";
 import CartCardComponent from "../components/cartCardComponent.jsx";
-import { fetchUserCartData, removeFromCart } from "../api/cart.api.js";
+import { fetchUserCartData, removeFromCart, updateProductQuantity } from "../api/cart.api.js";
 
 
 
@@ -34,21 +32,13 @@ const Cart = () => {
       }, [])
 
       const removeToCart = async (id) => {
-         await removeFromCart(id);
-         fetchCartData();
+            await removeFromCart(id);
+            fetchCartData();
       }
 
       const updateQuantity = async (id, action) => {
-
-            try {
-
-                  const response = await axios.put(`${BACKEND_URL}/users/updateQuantity`, { id, action }, { withCredentials: true });
-                  setCartData(response.data.updatedCart.cart)
-                  console.log(response.data.message);
-
-            } catch (error) {
-                  console.log(error.message)
-            }
+            await updateProductQuantity(id, action);
+            fetchCartData();
       }
 
 

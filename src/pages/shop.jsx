@@ -7,6 +7,7 @@ import { BACKEND_URL } from '../config/env.js';
 import ShopCardComponent from '../components/shopCardComponent.jsx';
 import { toast } from 'react-toastify';
 import { IoColorFilterOutline } from 'react-icons/io5';
+import { fetchAllProducts } from '../api/product.api.js';
 
 
 const Shop = () => {
@@ -18,21 +19,14 @@ const Shop = () => {
 
       async function fetchProducts() {
 
-            try {
-
-                  const response = await axios.get(`${BACKEND_URL}/shop`, {
-                        withCredentials: true
-                  });
-
-                  if (!response.data.success) navigate('/');
-
-                  setProducts(response.data.products);
+            const response = await fetchAllProducts();
+            if (response.success) {
+                  setProducts(response.products);
                   setLoading(false);
-
-            } catch (error) {
-                  console.log(error.message);
+            } else {
                   navigate('/');
             }
+
 
       }
 
@@ -109,9 +103,9 @@ const Shop = () => {
                                                 return (
 
                                                       <Link key={product._id} to={`/productInfo/${product._id}`} className="block">
-                                                            <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} 
-                                                            quantity={product.quantity}
-                                                            setLoading = {setLoading}/>
+                                                            <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl}
+                                                                  quantity={product.quantity}
+                                                                  setLoading={setLoading} />
                                                       </Link>
                                                 )
                                           })

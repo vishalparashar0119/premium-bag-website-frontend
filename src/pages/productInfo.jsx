@@ -5,12 +5,11 @@ import axios from "axios";
 import Loader from "../components/loader";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../config/env.js";
+import { fetchSingleProduct } from "../api/product.api.js";
 
 const ProductInfo = () => {
 
   const { id } = useParams();
-  // Dummy product data (replace with real state when integrating)
-  console.log(id);
 
   const navigate = useNavigate();
   const [product, setProduct] = useState();
@@ -18,19 +17,19 @@ const ProductInfo = () => {
   const [loading, setLoadig] = useState(true);
 
   const fetchProduct = async () => {
-    try {
-      const response = await axios.get(`${BACKEND_URL}/products/product/${id}`, { withCredentials: true });
 
-      if (!response.data.success) navigate('/');
+    const response = await fetchSingleProduct(id);
+
+    if (response.success) {
 
       console.log(response.data)
-      setProduct(response.data.product);
+      setProduct(response.product);
       setLoadig(false);
 
-    } catch (error) {
-      console.log(error.response.data.message);
-      navigate('/')
+    } else {
+      navigate('/');
     }
+
   }
 
   useEffect(() => {

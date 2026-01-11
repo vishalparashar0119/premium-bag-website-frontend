@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import NotViewed from '../components/notViewedComponent';
 import Viewed from '../components/viewedComponent';
 import Shipped from '../components/shippedComponent';
 import Return from '../components/returnedComponent';
 import Packed from '../components/packedComponent';
 import Delivered from '../components/deliveredComponent';
-import axios from 'axios';
-import { BACKEND_URL } from '../config/env';
 import Loader from '../components/loader';
 import AdminsNavigation from '../components/adminsNavigation';
-import { todayOrder } from '../api/order.api';
+import { todayOrder, updateProductProcess } from '../api/order.api';
 
 
 const TodaysOrders = () => {
@@ -38,9 +36,8 @@ const TodaysOrders = () => {
 
       const updateProcess = async (orderId) => {
             setLoading(true);
-            const response = await axios.put(`${BACKEND_URL}/owners/updateProcess/${orderId}`, {}, { withCredentials: true })
-            setOrderData(response.data.todaysOrder);
-            console.log(response.data.todaysOrder);
+            await updateProductProcess(orderId);
+            await fetchTodayOrder();
             setLoading(false);
       }
 

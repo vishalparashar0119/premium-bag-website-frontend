@@ -48,3 +48,14 @@ export const filterProductData = async (data) => {
             return { success: false, message: error.response.data.message || error.message };
       }
 }
+
+export   const fetchSingleProduct = async (id) => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/products/product/${id}`, { withCredentials: true });
+
+      return response.data
+    } catch (error) {
+      console.log(error.response.data.message);
+      return { success: false, message: error.response.data.message || error.message };
+    }
+  }

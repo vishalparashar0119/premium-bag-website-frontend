@@ -1,6 +1,3 @@
-// fetch all products 
-// fetch single product details
-
 import axios from "axios";
 import { BACKEND_URL } from "../config/env";
 

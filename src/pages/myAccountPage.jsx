@@ -1,13 +1,11 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/loader";
-import { BACKEND_URL } from "../config/env.js";
 import OrderHistoryCardComponent from "../components/orderHistoryCardComponent.jsx";
 import ProfileCardComponent from "../components/profileCardComponent.jsx";
 import EditProfile from "../components/editUserComponent.jsx";
-import { toast } from "react-toastify";
+import { fetchUserData } from "../api/user.api.js";
 
 
 const MyAccount = () => {
@@ -18,23 +16,20 @@ const MyAccount = () => {
       const [loading, setLoading] = useState(true);
       const [toggle, setToggle] = useState(false);
 
-      async function fetchUserData() {
-            try {
-                  const response = await axios.get(`${BACKEND_URL}/users/myAccount`, { withCredentials: true });
+      async function fetchData() {
+            const response = await fetchUserData();
+            console.log(response);
 
-                  if (!response.data.success) navigate('/');
-                  console.log(response.data.user.orderHistory)
-                  setUserData(response.data.user)
+            if (response.success) {
+                  setUserData(response.user)
                   setLoading(false);
-
-            } catch (error) {
-                  toast.error(error.response.data.message)
-                  navigate('/')
+            } else {
+                  navigate('/');
             }
       }
 
       useEffect(() => {
-            fetchUserData();
+            fetchData();
             // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
@@ -70,7 +65,7 @@ const MyAccount = () => {
                                     ) : (
                                           <div className="flex flex-col gap-6 max-h-screen overflow-auto ">
                                                 {userData.orderHistory.map((order) => (
-                                          
+
                                                       <OrderHistoryCardComponent
                                                             key={order._id}
                                                             imageUrl={order.productSnapShot[0].image.imageUrl}

@@ -1,6 +1,3 @@
-//fetch todays order
-// update order status 
-//  do order 
 import { BACKEND_URL } from "../config/env";
 
 import axios from "axios";

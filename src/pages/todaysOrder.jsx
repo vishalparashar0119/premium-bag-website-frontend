@@ -10,6 +10,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../config/env';
 import Loader from '../components/loader';
 import AdminsNavigation from '../components/adminsNavigation';
+import { todayOrder } from '../api/order.api';
 
 
 const TodaysOrders = () => {
@@ -19,20 +20,13 @@ const TodaysOrders = () => {
       const [loading, setLoading] = useState(true);
 
       const fetchTodayOrder = async () => {
-            try {
 
-                  const response = await axios.get(`${BACKEND_URL}/owners/todaysOrder`, {
-                        withCredentials: true
-                  });
-
-                  if (!response.data.success) navigate('/');
-
-                  setOrderData(response.data.todaysOrder);
-                  console.log(response.data.todaysOrder);
+            setLoading(true);
+            const response = await todayOrder();
+            if (response.success) {
+                  setOrderData(response.todaysOrder);
                   setLoading(false);
-
-            } catch (error) {
-                  console.log(error.message);
+            } else {
                   navigate('/');
             }
       }

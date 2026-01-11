@@ -26,10 +26,9 @@ const Cart = () => {
       }
 
       useEffect(() => {
-
             fetchCartData();
             // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])
+      }, []); 
 
       const removeToCart = async (id) => {
             await removeFromCart(id);

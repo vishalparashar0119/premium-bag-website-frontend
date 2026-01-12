@@ -1,6 +1,3 @@
-// fetch user data 
-// update user profile
-
 import axios from "axios";
 import { BACKEND_URL } from "../config/env";
 import { toast } from "react-toastify";

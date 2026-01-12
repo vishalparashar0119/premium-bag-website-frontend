@@ -22,7 +22,6 @@ const Cart = () => {
             } else {
                   navigate('/');
             }
-
       }
 
       useEffect(() => {

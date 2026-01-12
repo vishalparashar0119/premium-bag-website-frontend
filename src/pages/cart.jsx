@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Loader from '../components/loader'
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {toast } from "react-toastify";
-import { BACKEND_URL } from "../config/env.js";
 import CartCardComponent from "../components/cartCardComponent.jsx";
+import { fetchUserCartData, removeFromCart, updateProductQuantity } from "../api/cart.api.js";
 
 
 
@@ -15,47 +13,30 @@ const Cart = () => {
       const navigate = useNavigate();
 
       const fetchCartData = async () => {
-            try {
-                  const response = await axios.get(`${BACKEND_URL}/users/cart`, { withCredentials: true });
 
-                  if (!response.data.success) navigate('/');
+            const response = await fetchUserCartData();
 
-                  setCartData(response.data.cartData.cart);
-                  console.log(response.data.cartData.cart);
+            if (response.success) {
+                  setCartData(response.cartData.cart);
                   setIsLoading(false);
-            } catch (error) {
-                  console.log(error.response.data.message)
+            } else {
                   navigate('/');
             }
       }
 
       useEffect(() => {
-
             fetchCartData();
             // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])
+      }, []); 
 
       const removeToCart = async (id) => {
-            try {
-                  const response = await axios.post(`${BACKEND_URL}/users/removeToCart/${id}`, {}, { withCredentials: true });
-                  toast.success(response.data.message);
-                  setCartData(response.data.cartData);
-            } catch (error) {
-                  toast.error(error.response.data.message)
-            }
+            await removeFromCart(id);
+            fetchCartData();
       }
 
       const updateQuantity = async (id, action) => {
-
-            try {
-
-                  const response = await axios.put(`${BACKEND_URL}/users/updateQuantity`, { id, action }, { withCredentials: true });
-                  setCartData(response.data.updatedCart.cart)
-                  console.log(response.data.message);
-
-            } catch (error) {
-                  console.log(error.message)
-            }
+            await updateProductQuantity(id, action);
+            fetchCartData();
       }
 
 
@@ -74,25 +55,25 @@ const Cart = () => {
                               <h2 className="text-xl md:text-2xl font-semibold mb-4">Shopping Cart</h2>
 
                               {cartData.map((item, index) => (
-                                    
-                                          <div key={item.products._id}>
-                                                <CartCardComponent
-                                                      imageUrl={item.products.image.imageUrl}
-                                                      productName={item.products.productName}
-                                                      quantity={item.quantity}
-                                                      id={item.products._id}
-                                                      updateQuantity={updateQuantity}
-                                                      removeToCart={removeToCart}
-                                                      price={item.products.price} />
+
+                                    <div key={item.products._id}>
+                                          <CartCardComponent
+                                                imageUrl={item.products.image.imageUrl}
+                                                productName={item.products.productName}
+                                                quantity={item.quantity}
+                                                id={item.products._id}
+                                                updateQuantity={updateQuantity}
+                                                removeToCart={removeToCart}
+                                                price={item.products.price} />
 
 
 
-                                                {/* DIVIDER */}
-                                                {index !== cartData.length - 1 && (
-                                                      <div className="w-full h-px bg-gray-300"></div>
-                                                )}
-                                          </div>
-                        
+                                          {/* DIVIDER */}
+                                          {index !== cartData.length - 1 && (
+                                                <div className="w-full h-px bg-gray-300"></div>
+                                          )}
+                                    </div>
+
                               ))}
                         </div>
 

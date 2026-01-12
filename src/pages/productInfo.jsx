@@ -1,36 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { MdStar, MdStarHalf, MdStarBorder } from "react-icons/md";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import Loader from "../components/loader";
-import { toast } from "react-toastify";
-import { BACKEND_URL } from "../config/env.js";
+import { fetchSingleProduct } from "../api/product.api.js";
+import { addToCart, removeFromCart } from "../api/cart.api.js";
 
 const ProductInfo = () => {
 
   const { id } = useParams();
-  // Dummy product data (replace with real state when integrating)
-  console.log(id);
 
   const navigate = useNavigate();
   const [product, setProduct] = useState();
-  const [inCart, setInCart] = useState(true);
+  const [inCart, setInCart] = useState(false);
   const [loading, setLoadig] = useState(true);
 
   const fetchProduct = async () => {
-    try {
-      const response = await axios.get(`${BACKEND_URL}/products/product/${id}`, { withCredentials: true });
 
-      if (!response.data.success) navigate('/');
+    const response = await fetchSingleProduct(id);
+
+    if (response.success) {
 
       console.log(response.data)
-      setProduct(response.data.product);
+      setProduct(response.product);
       setLoadig(false);
 
-    } catch (error) {
-      console.log(error.response.data.message);
-      navigate('/')
+    } else {
+      navigate('/');
     }
+
   }
 
   useEffect(() => {
@@ -38,28 +35,15 @@ const ProductInfo = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const addToCart = async () => {
-
-    try {
-      const response = await axios.post(`${BACKEND_URL}/users/addToCart/${id}`, {}, {
-        withCredentials: true
-      });
-      setInCart(false);
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+  const addFromCart = async () => {
+    await addToCart(id);
+    setInCart(true);
   }
 
 
   const removeToCart = async () => {
-    try {
-      const response = await axios.post(`${BACKEND_URL}/users/removeToCart/${id}`, {}, { withCredentials: true });
-      setInCart(true)
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.error(error.response.data.message)
-    }
+    await removeFromCart(id);
+    setInCart(false);
   }
   if (loading) {
     return <Loader />
@@ -126,8 +110,8 @@ const ProductInfo = () => {
             {/* ADD TO CART + BUY */}
             <div className="mt-10 flex gap-5">
               {
-                inCart ?
-                  <button onClick={addToCart} className="bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded font-medium shadow">
+                !inCart ?
+                  <button onClick={addFromCart} className="bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded font-medium shadow">
                     Add to Cart
                   </button> :
                   <button onClick={removeToCart} className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded font-medium shadow">

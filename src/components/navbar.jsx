@@ -1,12 +1,10 @@
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Bounce, toast, ToastContainer } from 'react-toastify'
 import { Outlet } from 'react-router-dom'
-import { BACKEND_URL } from '../config/env.js'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from 'react'
-import { IoCloseSharp } from 'react-icons/io5'
+import { logoutUser } from '../api/auth.api.js'
 
 
 const Navbar = () => {
@@ -15,12 +13,13 @@ const Navbar = () => {
       const [toggle, setToggle] = useState(false);
       const handleLogout = async () => {
 
-            try {
-                  const confirmLogout = await axios.post(`${BACKEND_URL}/users/logout`, {}, { withCredentials: true });
-                  if (confirmLogout.data.success) navigate('/');
+            const response = await logoutUser();
 
-            } catch (error) {
-                  toast.error(error.confirmLogout.data.message)
+            if (response.success) {
+                  navigate('/');
+                  toast.success(response.message)
+            } else {
+                  toast.error(response.message)
             }
       }
       return (

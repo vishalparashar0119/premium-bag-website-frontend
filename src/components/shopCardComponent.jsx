@@ -1,28 +1,16 @@
-import axios from 'axios';
 import { CiCirclePlus } from 'react-icons/ci';
 import { BACKEND_URL } from '../config/env';
-import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { deleteProduct } from '../api/admin.api';
+import { addToCart } from '../api/cart.api';
 
 const ShopCardComponent = (props) => {
   const { imageUrl, productName, price, id, quantity, isAdmin = false, fetchProducts = null, setLoading } = props;
 
 
 
-  const addToCart = async (id) => {
-
-    try {
-      setLoading(true);
-      const response = await axios.post(`${BACKEND_URL}/users/addToCart/${id}`, {}, {
-        withCredentials: true
-      });
-      setLoading(false);
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
+  const addToCartUser = async (id) => {
+     await addToCart(id);
   }
 
   const deleteProducts = async (id) => {
@@ -78,7 +66,7 @@ const ShopCardComponent = (props) => {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            addToCart(id);
+            addToCartUser(id);
           }}
           className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-white shrink-0"
         >

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import EditProfile from "../components/editUserComponent.jsx";
+import { createOrderOnline, orderProductForUser, verifyUserPayment } from "../api/payment.api.js";
 
 
 const Order = () => {
@@ -55,28 +56,35 @@ const Order = () => {
 
       if (data.choice === 'Online') {
 
-        const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: product.price }, {
-          withCredentials: true
-        });
+        if (!user.address) {
+          setToggle(true);
 
-        const options = {
-          key: RAZORPAY_KEY,
-          amount: order.data.order.amount,
-          currency: order.data.order.currency,
-          order_id: order.data.order.id,
-          handler: function (response) {
-            verifyPayment(response);
+        } else {
+
+          const order = await createOrderOnline(product.price);
+
+          if (order.success) {
+
+            const options = {
+              key: RAZORPAY_KEY,
+              amount: order.order.amount,
+              currency: order.order.currency,
+              order_id: order.order.id,
+              handler: function (response) {
+                verifyPayment(response);
+              }
+
+
+            }
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+          } else{
+            toast.error(order.message);
           }
-
-
         }
-
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-        console.log(order)
-        console.log(data)
       } else {
-        orderProduct(product.price, user._id, null, product._id, user.address, 1, 'COD');
+        await orderProduct(product.price, user._id, null, product._id, user.address, 1, 'COD');
       }
     } catch (error) {
       console.log(error.messsage)
@@ -87,14 +95,10 @@ const Order = () => {
 
     console.log("verify payment method ::", paymentDetails);
     try {
-      const order = await axios.post(`${BACKEND_URL}/users/razorPay/verifyPayment`, { paymentDetails }, {
-        withCredentials: true
-      });
+      const response = await verifyUserPayment(paymentDetails);
 
-      console.log(order.data.success)
-
-      if (order.data.success) {
-        orderProduct(product.price, user._id, order.data.razorpay_payment_id, product._id, user.address, 1, 'Online');
+      if (response.success) {
+        await orderProduct(product.price, user._id, response.razorpay_payment_id, product._id, user.address, 1, 'Online');
       }
     } catch (error) {
       console.log(error.messsage)
@@ -102,25 +106,21 @@ const Order = () => {
   }
 
   const orderProduct = async (amount, userId, paymentId = null, productId, shippingAddress, quantity, modeOfPayment) => {
-    try {
 
-      if(!user.address){
-          setToggle(true);
-      }else{
-        
-        console.log(amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment);
-  
-        const newOrder = await axios.post(`${BACKEND_URL}/products/product/order`, {
-          amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
-        }, { withCredentials: true });
-  
-        toast.success(newOrder.data.message);
-        console.log(newOrder.data.message);
+
+    if (!user.address) {
+      setToggle(true);
+    } else {
+
+      const response = await orderProductForUser(
+        amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
+      );
+
+      if (response.success) {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
       }
-    } catch (error) {
-      console.log("Order error:", error);
-      toast.error(error.response?.data?.message || "Failed to place order");
-      console.log(error.message)
     }
   }
 
@@ -239,19 +239,19 @@ const Order = () => {
             <span>₹ {product.price}</span>
           </div>
 
-          {product.quantity > 0 ?<button disabled={isSubmitting} onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
+          {product.quantity > 0 ? <button disabled={isSubmitting} onClick={handleSubmit(handlePayment)} className="w-full mt-5 bg-yellow-400 hover:bg-yellow-500 text-black font-medium py-2 rounded">
             {isSubmitting ? 'Placing order...' : 'Place Order'}
-          </button> :<button  className="w-full mt-5 bg-gray-300  text-white font-medium py-2 rounded">
+          </button> : <button className="w-full mt-5 bg-gray-300  text-white font-medium py-2 rounded">
             {isSubmitting ? 'Placing order...' : 'Place Order'}
           </button>}
         </div>
       </div>
-                  {toggle && <EditProfile setToggle={setToggle}
-                        fullName={user.fullName}
-                        email={user.email}
-                        phoneNo={user.phoneNo}
-                        address={user.address}
-                        setUserData={setUser} />}
+      {toggle && <EditProfile setToggle={setToggle}
+        fullName={user.fullName}
+        email={user.email}
+        phoneNo={user.phoneNo}
+        address={user.address}
+        setUserData={setUser} />}
     </>
   );
 };

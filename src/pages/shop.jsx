@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/loader';
-import { CiCirclePlus } from "react-icons/ci";
-import { BACKEND_URL } from '../config/env.js';
 import ShopCardComponent from '../components/shopCardComponent.jsx';
-import { toast } from 'react-toastify';
 import { IoColorFilterOutline } from 'react-icons/io5';
+import { fetchAllProducts, filterProductData } from '../api/product.api.js';
 
 
 const Shop = () => {
@@ -18,52 +15,22 @@ const Shop = () => {
 
       async function fetchProducts() {
 
-            try {
-
-                  const response = await axios.get(`${BACKEND_URL}/shop`, {
-                        withCredentials: true
-                  });
-
-                  if (!response.data.success) navigate('/');
-
-                  setProducts(response.data.products);
+            const response = await fetchAllProducts();
+            if (response.success) {
+                  setProducts(response.products);
                   setLoading(false);
-
-            } catch (error) {
-                  console.log(error.message);
+            } else {
                   navigate('/');
             }
+
 
       }
 
       const filterData = async (data) => {
-            try {
-                  let response;
-
-                  switch (data) {
-                        case "newest": response = await axios.get(`${BACKEND_URL}/products/filter/newest`, { withCredentials: true });
-                              break;
-
-                        case "popular": response = await axios.get(`${BACKEND_URL}/products/filter/popular`, { withCredentials: true });
-                              break;
-                        case "New Collection": response = await axios.get(`${BACKEND_URL}/products/filter/newest`, { withCredentials: true });
-                              break;
-                        case "All Products": response = await axios.get(`${BACKEND_URL}/shop`, { withCredentials: true });
-                              break;
-
-                        case "Discounted Products": response = await axios.get(`${BACKEND_URL}/products/filter/discount`, { withCredentials: true });
-                              break;
-
-                        case "Availability": response = await axios.get(`${BACKEND_URL}/products/filter/available`, { withCredentials: true });
-                              break;
-
-                  }
-                  setLoading(true);
-                  setProducts(response.data.products);
-                  setLoading(false);
-            } catch (error) {
-                  toast.error(error.response.data.message);
-            }
+            setLoading(true);
+            const response = await filterProductData(data);
+            setProducts(response.products);
+            setLoading(false);
       }
 
 
@@ -109,9 +76,9 @@ const Shop = () => {
                                                 return (
 
                                                       <Link key={product._id} to={`/productInfo/${product._id}`} className="block">
-                                                            <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl} 
-                                                            quantity={product.quantity}
-                                                            setLoading = {setLoading}/>
+                                                            <ShopCardComponent productName={product.productName} price={product.price} id={product._id} imageUrl={product.image.imageUrl}
+                                                                  quantity={product.quantity}
+                                                                  setLoading={setLoading} />
                                                       </Link>
                                                 )
                                           })

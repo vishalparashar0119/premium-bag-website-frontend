@@ -8,12 +8,7 @@ import { loginUser } from "../api/auth.api.js";
 
 const LoginComponent = () => {
 
-
   const navigate = useNavigate();
-
-
-
-
 
   const loginSchema = z.object({
     email: z.email('Invali email formate'),

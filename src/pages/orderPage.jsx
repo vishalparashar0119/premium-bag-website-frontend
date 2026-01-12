@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import EditProfile from "../components/editUserComponent.jsx";
-import { orderProductForUser } from "../api/payment.api.js";
+import { createOrderOnline, orderProductForUser, verifyUserPayment } from "../api/payment.api.js";
 
 
 const Order = () => {
@@ -61,26 +61,27 @@ const Order = () => {
 
         } else {
 
-          const order = await axios.post(`${BACKEND_URL}/users/razorPay/createOrder`, { amount: product.price }, {
-            withCredentials: true
-          });
+          const order = await createOrderOnline(product.price);
 
-          const options = {
-            key: RAZORPAY_KEY,
-            amount: order.data.order.amount,
-            currency: order.data.order.currency,
-            order_id: order.data.order.id,
-            handler: function (response) {
-              verifyPayment(response);
+          if (order.success) {
+
+            const options = {
+              key: RAZORPAY_KEY,
+              amount: order.order.amount,
+              currency: order.order.currency,
+              order_id: order.order.id,
+              handler: function (response) {
+                verifyPayment(response);
+              }
+
+
             }
 
-
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+          } else{
+            toast.error(order.message);
           }
-
-          const rzp = new window.Razorpay(options);
-          rzp.open();
-          console.log(order)
-          console.log(data)
         }
       } else {
         await orderProduct(product.price, user._id, null, product._id, user.address, 1, 'COD');
@@ -94,14 +95,10 @@ const Order = () => {
 
     console.log("verify payment method ::", paymentDetails);
     try {
-      const order = await axios.post(`${BACKEND_URL}/users/razorPay/verifyPayment`, { paymentDetails }, {
-        withCredentials: true
-      });
+      const response = await verifyUserPayment(paymentDetails);
 
-      console.log(order.data.success)
-
-      if (order.data.success) {
-        orderProduct(product.price, user._id, order.data.razorpay_payment_id, product._id, user.address, 1, 'Online');
+      if (response.success) {
+        await orderProduct(product.price, user._id, response.razorpay_payment_id, product._id, user.address, 1, 'Online');
       }
     } catch (error) {
       console.log(error.messsage)
@@ -109,26 +106,22 @@ const Order = () => {
   }
 
   const orderProduct = async (amount, userId, paymentId = null, productId, shippingAddress, quantity, modeOfPayment) => {
-    
 
-      if (!user.address) {
-        setToggle(true);
+
+    if (!user.address) {
+      setToggle(true);
+    } else {
+
+      const response = await orderProductForUser(
+        amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
+      );
+
+      if (response.success) {
+        toast.success(response.message);
       } else {
-
-        console.log(amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment);
-
-        const response = await orderProductForUser(
-          amount, userId, paymentId, productId, shippingAddress, quantity, modeOfPayment
-        );
-
-        console.log(response);
-
-        if(response.success){
-          toast.success(response.message);
-        }else{
-          toast.error(response.message);
-        }
+        toast.error(response.message);
       }
+    }
   }
 
   if (loader) {

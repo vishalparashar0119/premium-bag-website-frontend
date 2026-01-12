@@ -16,7 +16,7 @@ const MyAccount = () => {
       const [loading, setLoading] = useState(true);
       const [toggle, setToggle] = useState(false);
 
-      async function fetchData() {
+      const fetchData = async () => {
             const response = await fetchUserData();
             console.log(response);
 
